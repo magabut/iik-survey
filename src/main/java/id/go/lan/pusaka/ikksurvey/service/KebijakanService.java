@@ -1,8 +1,9 @@
 package id.go.lan.pusaka.ikksurvey.service;
 
-import java.util.List;
-
 import id.go.lan.pusaka.ikksurvey.model.Kebijakan;
+import id.go.lan.pusaka.ikksurvey.model.dto.SampleKebijakanDto;
+
+import java.util.List;
 
 public interface KebijakanService {
 
@@ -17,4 +18,6 @@ public interface KebijakanService {
 	List<Kebijakan> findByInstansi(String instansi);
 	
 	List<Kebijakan> findByEnumerator(String enumerator);
+
+	SampleKebijakanDto findSampleKebijakanByInstansi(String instansi);
 }
