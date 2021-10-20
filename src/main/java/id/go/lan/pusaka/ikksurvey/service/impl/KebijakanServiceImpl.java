@@ -1,16 +1,29 @@
 package id.go.lan.pusaka.ikksurvey.service.impl;
 
-import java.util.List;
-
+import id.go.lan.pusaka.ikksurvey.model.Kebijakan;
+import id.go.lan.pusaka.ikksurvey.model.dto.KebijakanDto;
+import id.go.lan.pusaka.ikksurvey.model.dto.SampleKebijakanDto;
+import id.go.lan.pusaka.ikksurvey.repository.KebijakanRepository;
+import id.go.lan.pusaka.ikksurvey.service.KebijakanService;
+import id.go.lan.pusaka.ikksurvey.utility.ModelMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import id.go.lan.pusaka.ikksurvey.model.Kebijakan;
-import id.go.lan.pusaka.ikksurvey.repository.KebijakanRepository;
-import id.go.lan.pusaka.ikksurvey.service.KebijakanService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class KebijakanServiceImpl implements KebijakanService {
+	private static final String STATUS_KEBIJAKAN_DIAJUKAN = "diajukan";
+	private static final String STATUS_KEBIJAKAN_DISETUJUI = "disetujui";
+	private static final String STATUS_KEBIJAKAN_PROSES = "proses";
+	private static final String STATUS_KEBIJAKAN_SELESAI = "selesai";
+	private static final String STATUS_KEBIJAKAN_DITOLAK = "ditolak";
+
+	@Autowired
+	private ModelMapperUtility modelMapperUtility;
+
 	@Autowired
 	KebijakanRepository kebijakanRepository;
 
@@ -57,8 +70,53 @@ public class KebijakanServiceImpl implements KebijakanService {
 	}
 
 	@Override
-	public List<Kebijakan> findByCreatedBy(String nip) {
+  public List<Kebijakan> findByCreatedBy(String nip) {
 		return kebijakanRepository.findByCreateBy(nip);
+  }
+
+  @Override
+	public SampleKebijakanDto findSampleKebijakanByInstansi(String instansi) {
+		List<Kebijakan> kebijakanDiajukanList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DIAJUKAN);
+		List<Kebijakan> kebijakanDisetujuiList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DISETUJUI);
+
+		int totalKebijakanDiajukan = kebijakanDiajukanList.size();
+		int totalKebijakanDisetujui = kebijakanDisetujuiList.size();
+
+		List<Kebijakan> kebijakanSampleList = generateKebijakanSample(kebijakanDisetujuiList);
+		List<KebijakanDto> kebijakanSampleDtoList = new ArrayList<>();
+		for (Kebijakan kebijakan : kebijakanSampleList) {
+			KebijakanDto kebijakanDto = modelMapperUtility.initialize().map(kebijakan, KebijakanDto.class);
+			kebijakanSampleDtoList.add(kebijakanDto);
+		}
+
+		return new SampleKebijakanDto(
+				totalKebijakanDiajukan,
+				totalKebijakanDisetujui,
+				kebijakanSampleList.size(),
+				kebijakanSampleDtoList);
 	}
 
+	@Override
+	public KebijakanDto assignEnumeratorToKebijakan(String instansi, Long idKebijakan, String nipEnumerator) {
+		Kebijakan kebijakan = kebijakanRepository.findByInstansiAndId(instansi, idKebijakan);
+		kebijakan.setEnumerator(nipEnumerator);
+		kebijakan.setStatus(STATUS_KEBIJAKAN_PROSES);
+		Kebijakan savedKebijakan = kebijakanRepository.save(kebijakan);
+		return modelMapperUtility.initialize().map(savedKebijakan, KebijakanDto.class);
+	}
+
+	private List<Kebijakan> generateKebijakanSample(List<Kebijakan> kebijakanList) {
+		int totalKebijakan = kebijakanList.size();
+		int totalSample = (int) Math.floor(Math.sqrt(totalKebijakan) + 1);
+
+		Random random = new Random();
+		List<Kebijakan> generatedKebijakanSample = new ArrayList<>();
+		for (int i = 0; i < totalSample; i++) {
+			int randomIndex = random.nextInt(kebijakanList.size());
+			generatedKebijakanSample.add(kebijakanList.get(randomIndex));
+			kebijakanList.remove(randomIndex);
+		}
+
+		return generatedKebijakanSample;
+	}
 }

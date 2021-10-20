@@ -1,5 +1,15 @@
 package id.go.lan.pusaka.ikksurvey.controller;
 
+import com.google.gson.Gson;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import id.go.lan.pusaka.ikksurvey.model.*;
+import id.go.lan.pusaka.ikksurvey.model.dto.KebijakanDto;
+import id.go.lan.pusaka.ikksurvey.model.dto.SampleKebijakanDto;
+import id.go.lan.pusaka.ikksurvey.model.request.*;
+import id.go.lan.pusaka.ikksurvey.service.*;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import id.go.lan.pusaka.ikksurvey.model.dto.DaftarKebijakanDto;
 import id.go.lan.pusaka.ikksurvey.model.dto.InstansiDto;
 import net.bytebuddy.description.method.MethodDescription;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,27 +27,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import com.google.gson.Gson;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-
-import id.go.lan.pusaka.ikksurvey.model.AgendaSetting;
-import id.go.lan.pusaka.ikksurvey.model.EvaluasiKebijakan;
-import id.go.lan.pusaka.ikksurvey.model.FormulasiKebijakan;
-import id.go.lan.pusaka.ikksurvey.model.ImplementasiKebijakan;
-import id.go.lan.pusaka.ikksurvey.model.Kebijakan;
-import id.go.lan.pusaka.ikksurvey.model.request.AgendSettingRequest;
-import id.go.lan.pusaka.ikksurvey.model.request.EvaluasiKebijakanRequest;
-import id.go.lan.pusaka.ikksurvey.model.request.FormulasiKebijakanRequest;
-import id.go.lan.pusaka.ikksurvey.model.request.ImplementasiKebijakanRequest;
-import id.go.lan.pusaka.ikksurvey.model.request.KebijakanRequest;
-import id.go.lan.pusaka.ikksurvey.model.request.Pegawai;
-import id.go.lan.pusaka.ikksurvey.service.AgendaSettingService;
-import id.go.lan.pusaka.ikksurvey.service.EvaluasiKebijakanService;
-import id.go.lan.pusaka.ikksurvey.service.FormulasiKebijakanService;
-import id.go.lan.pusaka.ikksurvey.service.ImplementasiKebijakanService;
-import id.go.lan.pusaka.ikksurvey.service.KebijakanService;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/kebijakan")
@@ -149,6 +141,14 @@ public class KebijakanController {
 		return kebijakanService.findByInstansi(getData(currentPrincipalName, token).getInstansiKerjaNama());
 	}
 
+	@GetMapping("/sampling")
+	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
+	public SampleKebijakanDto findSampleKebijakan(@RequestHeader(value = "Authorization") String token) throws UnirestException {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		return kebijakanService.findSampleKebijakanByInstansi(getData(currentPrincipalName, token).getInstansiKerjaNama());
+	}
+
 	@PostMapping("/update/{id}")
 	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
 	public Kebijakan updateKebijkanbyId(@RequestBody KebijakanRequest kebijakanRequest, @PathVariable("id") Long id,
@@ -163,6 +163,20 @@ public class KebijakanController {
 		kebijakan.setJenis(kebijakanRequest.getJenis());
 		kebijakan.setEnumerator(kebijakanRequest.getEnumerator());
 		return kebijakanService.save(kebijakan);
+	}
+
+	@PutMapping("/assign/{idKebijakan}")
+	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
+	public KebijakanDto assignEnumeratorKebijakan(
+			@RequestBody AssignEnumeratorKebijakanRequest requestBody,
+			@PathVariable("idKebijakan") Long idKebijakan,
+			@RequestHeader(value = "Authorization") String token) throws UnirestException {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		return kebijakanService.assignEnumeratorToKebijakan(
+				getData(currentPrincipalName, token).getInstansiKerjaNama(),
+				idKebijakan,
+				requestBody.getNipEnumerator());
 	}
 
 	@GetMapping("/{id}")
