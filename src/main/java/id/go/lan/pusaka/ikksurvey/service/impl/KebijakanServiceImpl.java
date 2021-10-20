@@ -40,6 +40,12 @@ public class KebijakanServiceImpl implements KebijakanService {
 	}
 
 	@Override
+	public Kebijakan findById(Long id) {
+		return kebijakanRepository.findById(id)
+				.orElseThrow(RuntimeException::new);
+	}
+
+	@Override
 	public Kebijakan findByEnumeratorAndId(String enumerator, Long id) {
 		// TODO Auto-generated method stub
 		return kebijakanRepository.findByEnumeratorAndId(enumerator, id);
@@ -64,6 +70,11 @@ public class KebijakanServiceImpl implements KebijakanService {
 	}
 
 	@Override
+  public List<Kebijakan> findByCreatedBy(String nip) {
+		return kebijakanRepository.findByCreateBy(nip);
+  }
+
+  @Override
 	public SampleKebijakanDto findSampleKebijakanByInstansi(String instansi) {
 		List<Kebijakan> kebijakanDiajukanList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DIAJUKAN);
 		List<Kebijakan> kebijakanDisetujuiList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DISETUJUI);
@@ -108,5 +119,4 @@ public class KebijakanServiceImpl implements KebijakanService {
 
 		return generatedKebijakanSample;
 	}
-
 }

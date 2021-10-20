@@ -12,6 +12,8 @@ public interface KebijakanService {
 
 	List<Kebijakan> findAll();
 
+	Kebijakan findById(Long id);
+
 	Kebijakan findByEnumeratorAndId(String enumerator, Long id);
 
 	Kebijakan findByInstansiAndId(String instansi, Long id);
@@ -19,6 +21,8 @@ public interface KebijakanService {
 	List<Kebijakan> findByInstansi(String instansi);
 	
 	List<Kebijakan> findByEnumerator(String enumerator);
+  
+  List<Kebijakan> findByCreatedBy(String nip);
 
 	SampleKebijakanDto findSampleKebijakanByInstansi(String instansi);
 
