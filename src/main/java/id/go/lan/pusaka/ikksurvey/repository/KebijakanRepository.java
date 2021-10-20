@@ -16,4 +16,6 @@ public interface KebijakanRepository extends JpaRepository<Kebijakan, Long> {
 
 	List<Kebijakan> findByEnumerator(String enumerator);
 
+	List<Kebijakan> findByCreateBy(String nip);
+
 }
