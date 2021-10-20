@@ -26,7 +26,7 @@ public class Kebijakan {
 	private String enumerator;
 	private String instansi;
 	private Date assignAt;
-	private Integer status;
+	private String status;
 	@OneToOne
 	@JoinColumn(name = "agenda_setting_id", referencedColumnName = "id")
 	@JsonIgnoreProperties("kebijakan")
@@ -160,11 +160,11 @@ public class Kebijakan {
 		this.assignAt = assignAt;
 	}
 
-	public Integer getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

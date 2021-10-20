@@ -53,7 +53,7 @@ public class FIleController {
 	EvaluasiKebijakanService evaluasiKebijakanService;
 
 	@PostMapping("/agendasetting/a1A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahA1A(@PathVariable("id") Long id, @RequestParam("fileA1A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -71,7 +71,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/agendasetting/a1B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahA1B(@PathVariable("id") Long id, @RequestParam("fileA1B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -89,7 +89,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/agendasetting/a1C/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahA1C(@PathVariable("id") Long id, @RequestParam("fileA1C") MultipartFile uploadfile)
 			throws IOException {
 
@@ -107,7 +107,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/agendasetting/a1D/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahA1D(@PathVariable("id") Long id, @RequestParam("fileA1D") MultipartFile uploadfile)
 			throws IOException {
 
@@ -125,7 +125,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/agendasetting/a2A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahA2A(@PathVariable("id") Long id, @RequestParam("fileA2A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -143,7 +143,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/agendasetting/a2B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahA2B(@PathVariable("id") Long id, @RequestParam("fileA2B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -161,7 +161,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/agendasetting/a2C/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahA2C(@PathVariable("id") Long id, @RequestParam("fileA2C") MultipartFile uploadfile)
 			throws IOException {
 
@@ -179,7 +179,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b1A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB1A(@PathVariable("id") Long id, @RequestParam("fileB1A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -197,7 +197,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b1B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB1B(@PathVariable("id") Long id, @RequestParam("fileB1B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -215,7 +215,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b2A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB2A(@PathVariable("id") Long id, @RequestParam("fileB2A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -233,7 +233,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b2B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB2B(@PathVariable("id") Long id, @RequestParam("fileB2B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -251,7 +251,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b3A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB3A(@PathVariable("id") Long id, @RequestParam("fileB3A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -269,7 +269,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b3B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB3B(@PathVariable("id") Long id, @RequestParam("fileB3B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -287,7 +287,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b3C/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB3C(@PathVariable("id") Long id, @RequestParam("fileB3C") MultipartFile uploadfile)
 			throws IOException {
 
@@ -305,7 +305,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b4A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB4A(@PathVariable("id") Long id, @RequestParam("fileB4A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -323,7 +323,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b4B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB4B(@PathVariable("id") Long id, @RequestParam("fileB4B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -341,7 +341,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b4C/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB4C(@PathVariable("id") Long id, @RequestParam("fileB4C") MultipartFile uploadfile)
 			throws IOException {
 
@@ -359,7 +359,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b5A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB5A(@PathVariable("id") Long id, @RequestParam("fileB5A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -377,7 +377,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b5B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB5B(@PathVariable("id") Long id, @RequestParam("fileB5B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -395,7 +395,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/formulasikebijakan/b5C/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahB5C(@PathVariable("id") Long id, @RequestParam("fileB5C") MultipartFile uploadfile)
 			throws IOException {
 
@@ -413,7 +413,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/implementasikebijakan/c1A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahC1A(@PathVariable("id") Long id, @RequestParam("fileC1A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -431,7 +431,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/implementasikebijakan/c1B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahC1B(@PathVariable("id") Long id, @RequestParam("fileC1B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -449,7 +449,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/implementasikebijakan/c1C/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahC1C(@PathVariable("id") Long id, @RequestParam("fileC1C") MultipartFile uploadfile)
 			throws IOException {
 
@@ -467,7 +467,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/implementasikebijakan/c1D/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahC1D(@PathVariable("id") Long id, @RequestParam("fileC1D") MultipartFile uploadfile)
 			throws IOException {
 
@@ -485,7 +485,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/implementasikebijakan/c2A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahC2A(@PathVariable("id") Long id, @RequestParam("fileC2A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -503,7 +503,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/implementasikebijakan/c2B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahC2B(@PathVariable("id") Long id, @RequestParam("fileC2B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -521,7 +521,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/implementasikebijakan/c2C/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahC2C(@PathVariable("id") Long id, @RequestParam("fileC2C") MultipartFile uploadfile)
 			throws IOException {
 
@@ -539,7 +539,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/implementasikebijakan/c3A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahC3A(@PathVariable("id") Long id, @RequestParam("fileC3A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -557,7 +557,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/implementasikebijakan/c3B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahC3B(@PathVariable("id") Long id, @RequestParam("fileC3B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -575,7 +575,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/implementasikebijakan/c3C/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahC3C(@PathVariable("id") Long id, @RequestParam("fileC3C") MultipartFile uploadfile)
 			throws IOException {
 
@@ -593,7 +593,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/evaluasikebijakan/d1A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahD1A(@PathVariable("id") Long id, @RequestParam("fileD1A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -611,7 +611,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/evaluasikebijakan/d1B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahD1B(@PathVariable("id") Long id, @RequestParam("fileD1B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -629,7 +629,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/evaluasikebijakan/d2A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahD2A(@PathVariable("id") Long id, @RequestParam("fileD2A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -647,7 +647,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/evaluasikebijakan/d2B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahD2B(@PathVariable("id") Long id, @RequestParam("fileD2B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -665,7 +665,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/evaluasikebijakan/d3A/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahD3A(@PathVariable("id") Long id, @RequestParam("fileD3A") MultipartFile uploadfile)
 			throws IOException {
 
@@ -683,7 +683,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/evaluasikebijakan/d3B/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahD3B(@PathVariable("id") Long id, @RequestParam("fileD3B") MultipartFile uploadfile)
 			throws IOException {
 
@@ -701,7 +701,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/evaluasikebijakan/d3C/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahD3C(@PathVariable("id") Long id, @RequestParam("fileD3C") MultipartFile uploadfile)
 			throws IOException {
 
@@ -719,7 +719,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/evaluasikebijakan/d3D/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahD3D(@PathVariable("id") Long id, @RequestParam("fileD3D") MultipartFile uploadfile)
 			throws IOException {
 
@@ -737,7 +737,7 @@ public class FIleController {
 	}
 
 	@PostMapping("/evaluasikebijakan/d3E/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public String unggahD3E(@PathVariable("id") Long id, @RequestParam("fileD3E") MultipartFile uploadfile)
 			throws IOException {
 

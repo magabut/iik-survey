@@ -8,13 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
@@ -52,9 +46,26 @@ public class KebijakanController {
 	@Autowired
 	ImplementasiKebijakanService implementasiKebijakanService;
 
+	// Koordinator Instansi
+
+	@GetMapping("/koordinatorinstansi")
+	@PreAuthorize("hasAnyAuthority('role_koordinator_instansi')")
+	public List<Kebijakan> getKebijakanByKoordinatorInstansi(@RequestHeader(value = "Authorization") String token) throws UnirestException {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		System.out.println(currentPrincipalName);
+		System.out.println(getData(currentPrincipalName,token).getInstansiKerjaNama());
+		return kebijakanService.findByInstansi(getData(currentPrincipalName, token).getInstansiKerjaNama());
+	}
+
+	// CRUD Kebijakan
+
 	@PostMapping("/")
-	@PreAuthorize("hasAnyAuthority('role_admin_kld')")
-	public Kebijakan simpan(@RequestBody KebijakanRequest kebijakanRequest) throws UnirestException {
+	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
+	public Kebijakan simpan(
+			@RequestBody KebijakanRequest kebijakanRequest,
+			@RequestHeader(value = "Authorization") String token
+	) throws UnirestException {
 
 		Kebijakan kebijakan = new Kebijakan();
 		kebijakan.setAssignAt(new Date());
@@ -64,7 +75,7 @@ public class KebijakanController {
 		kebijakan.setJenis(kebijakanRequest.getJenis());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
-		kebijakan.setInstansi(getData(currentPrincipalName).getInstansiKerjaNama());
+		kebijakan.setInstansi(getData(currentPrincipalName, token).getInstansiKerjaNama());
 		kebijakan.setCreateBy(currentPrincipalName);
 		kebijakan.setCreatedAt(new Date());
 		kebijakanRequest.setTanggal(kebijakanRequest.getTanggal());
@@ -76,25 +87,26 @@ public class KebijakanController {
 		kebijakan.setFormulasiKebijakan(formulasiKebijakanService.save(formulasiKebijakan));
 		ImplementasiKebijakan implementasiKebijakan = new ImplementasiKebijakan();
 		kebijakan.setImplementasiKebijakan(implementasiKebijakanService.save(implementasiKebijakan));
-		kebijakan.setStatus(1);
+		kebijakan.setStatus("diajukan");
 		return kebijakanService.save(kebijakan);
 	}
 
 	@GetMapping("/")
-	@PreAuthorize("hasAnyAuthority('role_admin_kld')")
-	public List<Kebijakan> findKebijakan() throws UnirestException {
+	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
+	public List<Kebijakan> findKebijakan(@RequestHeader(value = "Authorization") String token) throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
-		return kebijakanService.findByInstansi(getData(currentPrincipalName).getInstansiKerjaNama());
+		return kebijakanService.findByInstansi(getData(currentPrincipalName, token).getInstansiKerjaNama());
 	}
 
 	@PostMapping("/update/{id}")
-	@PreAuthorize("hasAnyAuthority('role_admin_kld')")
-	public Kebijakan updateKebijkanbyId(@RequestBody KebijakanRequest kebijakanRequest, @PathVariable("id") Long id)
+	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
+	public Kebijakan updateKebijkanbyId(@RequestBody KebijakanRequest kebijakanRequest, @PathVariable("id") Long id,
+										@RequestHeader(value = "Authorization") String token)
 			throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
-		Kebijakan kebijakan = kebijakanService.findByInstansiAndId(getData(currentPrincipalName).getInstansiKerjaNama(),
+		Kebijakan kebijakan = kebijakanService.findByInstansiAndId(getData(currentPrincipalName, token).getInstansiKerjaNama(),
 				id);
 		kebijakan.setNama(kebijakanRequest.getNama());
 		kebijakan.setTanggal(kebijakanRequest.getTanggal());
@@ -104,15 +116,16 @@ public class KebijakanController {
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyAuthority('role_admin_kld')")
-	public Kebijakan cariKebijkanById(@PathVariable("id") Long id) throws UnirestException {
+	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
+	public Kebijakan cariKebijkanById(@PathVariable("id") Long id,
+									  @RequestHeader(value = "Authorization") String token) throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
-		return kebijakanService.findByInstansiAndId(getData(currentPrincipalName).getInstansiKerjaNama(), id);
+		return kebijakanService.findByInstansiAndId(getData(currentPrincipalName, token).getInstansiKerjaNama(), id);
 	}
 
 	@GetMapping("/enumerator")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public List<Kebijakan> findKebijakanEnumerator() throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
@@ -120,7 +133,7 @@ public class KebijakanController {
 	}
 
 	@GetMapping("/enumerator/agendasetting/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public AgendaSetting findKebijakanEnumeratorId(@PathVariable("id") Long id) throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
@@ -131,7 +144,7 @@ public class KebijakanController {
 	}
 
 	@PostMapping("/enumerator/agendasetting/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public AgendaSetting simpanKebijakanEnumeratorIdAgendaSeting(@RequestBody AgendSettingRequest agendaSettingRequest,
 			@PathVariable("id") Long id) throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -152,7 +165,7 @@ public class KebijakanController {
 	}
 
 	@GetMapping("/enumerator/formulasikebijakan/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public FormulasiKebijakan findKebijakanEnumeratorIdFormulasiKebijakan(@PathVariable("id") Long id)
 			throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -164,7 +177,7 @@ public class KebijakanController {
 	}
 
 	@PostMapping("/enumerator/formulasikebijakan/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public FormulasiKebijakan simpanKebijakanEnumeratorIdFormulasiKebijakan(
 			@RequestBody FormulasiKebijakanRequest formulasiKebijakanRequest, @PathVariable("id") Long id)
 			throws UnirestException {
@@ -192,7 +205,7 @@ public class KebijakanController {
 	}
 
 	@GetMapping("/enumerator/implementasikebijakan/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public ImplementasiKebijakan findKebijakanEnumeratorIdImplementasiKebijakan(@PathVariable("id") Long id)
 			throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -204,7 +217,7 @@ public class KebijakanController {
 	}
 
 	@PostMapping("/enumerator/implementasikebijakan/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public ImplementasiKebijakan simpanKebijakanEnumeratorIdImplementasiKebiajakan(
 			@RequestBody ImplementasiKebijakanRequest implementasiKebijakanRequest, @PathVariable("id") Long id)
 			throws UnirestException {
@@ -229,7 +242,7 @@ public class KebijakanController {
 	}
 
 	@GetMapping("/enumerator/evaluasikebijakan/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public EvaluasiKebijakan findKebijakanEnumeratorIdEvaluasiKebijakan(@PathVariable("id") Long id)
 			throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -241,7 +254,7 @@ public class KebijakanController {
 	}
 
 	@PostMapping("/enumerator/evaluasikebijakan/{id}")
-	@PreAuthorize("hasAnyAuthority('role_kld_enumerator')")
+	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public EvaluasiKebijakan simpanKebijakanEnumeratorIdEvaluasiKebijakan(
 			@RequestBody EvaluasiKebijakanRequest evaluasiKebijakanRequest, @PathVariable("id") Long id)
 			throws UnirestException {
@@ -264,16 +277,18 @@ public class KebijakanController {
 		return evaluasiKebijakanService.save(evaluasiKebijakan);
 	}
 
-	Pegawai getData(String nip) throws UnirestException {
+	Pegawai getData(String nip, String token) throws UnirestException {
 		Pegawai pegawai = new Pegawai();
 		try {
 			Unirest.setTimeouts(0, 0);
-			HttpResponse<String> response = Unirest.get("http://localhost:8090/user/caridatapegawai/" + nip).asString();
+			HttpResponse<String> response = Unirest.get("http://localhost:8090/user/pegawai/" + nip)
+					.header("Authorization", token).asString();
 			JSONObject jsonObj = new JSONObject(response.getBody());
 			Gson g = new Gson();
 			pegawai = g.fromJson(jsonObj.toString(), Pegawai.class);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println(e.getMessage());
 			return null;
 		}
 
