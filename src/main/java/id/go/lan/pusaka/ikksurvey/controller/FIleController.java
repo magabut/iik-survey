@@ -767,7 +767,7 @@ public class FIleController {
 				int month = cal.get(Calendar.MONTH) + 1;
 				int day = cal.get(Calendar.DAY_OF_MONTH);
 
-				String directory = "/Users/panji/ikk/" + nip + "/" + year + "/" + month + "/" + day + "/";
+				String directory = "./media/uploads/" + nip + "/" + year + "/" + month + "/" + day + "/";
 				File directory2 = new File(directory);
 				if (!directory2.exists()) {
 					directory2.mkdirs();
