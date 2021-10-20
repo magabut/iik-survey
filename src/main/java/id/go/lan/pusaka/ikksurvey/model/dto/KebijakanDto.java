@@ -15,4 +15,5 @@ public class KebijakanDto {
     private Long id;
     private String nama;
     private Date tanggal;
+    private String enumerator;
 }

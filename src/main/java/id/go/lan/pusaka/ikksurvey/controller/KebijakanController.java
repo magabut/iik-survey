@@ -5,6 +5,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import id.go.lan.pusaka.ikksurvey.model.*;
+import id.go.lan.pusaka.ikksurvey.model.dto.KebijakanDto;
 import id.go.lan.pusaka.ikksurvey.model.dto.SampleKebijakanDto;
 import id.go.lan.pusaka.ikksurvey.model.request.*;
 import id.go.lan.pusaka.ikksurvey.service.*;
@@ -107,6 +108,20 @@ public class KebijakanController {
 		kebijakan.setJenis(kebijakanRequest.getJenis());
 		kebijakan.setEnumerator(kebijakanRequest.getEnumerator());
 		return kebijakanService.save(kebijakan);
+	}
+
+	@PutMapping("/assign/{idKebijakan}")
+	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
+	public KebijakanDto assignEnumeratorKebijakan(
+			@RequestBody AssignEnumeratorKebijakanRequest requestBody,
+			@PathVariable("idKebijakan") Long idKebijakan,
+			@RequestHeader(value = "Authorization") String token) throws UnirestException {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		return kebijakanService.assignEnumeratorToKebijakan(
+				getData(currentPrincipalName, token).getInstansiKerjaNama(),
+				idKebijakan,
+				requestBody.getNipEnumerator());
 	}
 
 	@GetMapping("/{id}")

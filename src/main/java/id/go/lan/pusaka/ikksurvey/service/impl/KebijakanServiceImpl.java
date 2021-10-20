@@ -85,6 +85,15 @@ public class KebijakanServiceImpl implements KebijakanService {
 				kebijakanSampleDtoList);
 	}
 
+	@Override
+	public KebijakanDto assignEnumeratorToKebijakan(String instansi, Long idKebijakan, String nipEnumerator) {
+		Kebijakan kebijakan = kebijakanRepository.findByInstansiAndId(instansi, idKebijakan);
+		kebijakan.setEnumerator(nipEnumerator);
+		kebijakan.setStatus(STATUS_KEBIJAKAN_PROSES);
+		Kebijakan savedKebijakan = kebijakanRepository.save(kebijakan);
+		return modelMapperUtility.initialize().map(savedKebijakan, KebijakanDto.class);
+	}
+
 	private List<Kebijakan> generateKebijakanSample(List<Kebijakan> kebijakanList) {
 		int totalKebijakan = kebijakanList.size();
 		int totalSample = (int) Math.floor(Math.sqrt(totalKebijakan) + 1);
