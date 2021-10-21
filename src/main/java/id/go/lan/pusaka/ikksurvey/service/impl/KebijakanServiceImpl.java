@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -107,7 +108,11 @@ public class KebijakanServiceImpl implements KebijakanService {
 
 	@Override
 	public Integer countByCreateBy(String nip) {
-		return kebijakanRepository.countByCreateBy(nip);
+		if (kebijakanRepository.countByCreateBy(nip).equals(null)) {
+			return 0;
+		} else {
+			return kebijakanRepository.countByCreateBy(nip);
+		}
 	}
 
 	@Override

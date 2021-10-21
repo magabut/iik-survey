@@ -56,7 +56,9 @@ public class KebijakanController {
 			daftarKebijakanDto.setNamaInstansi(instansi.getNamaInstansi());
 			daftarKebijakanDto.setTotalKebijakan(kebijakanService.countByCreateBy(instansi.getAdminInstansi()));
 			daftarKebijakanDto.setNipAdminInstansi(instansi.getAdminInstansi());
-			daftarKebijakanDto.setTanggal(kebijakanService.findTopByCreateBy(instansi.getAdminInstansi()).getTanggal());
+			daftarKebijakanDto.setTanggal(new Date());
+			// TO DO -> masih null
+//			daftarKebijakanDto.setTanggal(kebijakanService.findTopByCreateBy(instansi.getAdminInstansi()).getTanggal());
 			daftarKebijakanDtoList.add(daftarKebijakanDto);
 		}
 
