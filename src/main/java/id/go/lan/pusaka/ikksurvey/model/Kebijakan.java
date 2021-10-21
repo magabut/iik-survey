@@ -27,6 +27,9 @@ public class Kebijakan {
 	private String instansi;
 	private Date assignAt;
 	private String status;
+	private Boolean isVerified = false;
+	private Boolean isSentByAdmin = false;
+	private Boolean isSentByKoordinator = false;
 	@OneToOne
 	@JoinColumn(name = "agenda_setting_id", referencedColumnName = "id")
 	@JsonIgnoreProperties("kebijakan")
@@ -168,4 +171,27 @@ public class Kebijakan {
 		this.status = status;
 	}
 
+	public Boolean getIsVerified() {
+		return isVerified;
+	}
+
+	public void setIsVerified(Boolean isVerified) {
+		this.isVerified = isVerified;
+	}
+
+	public Boolean getSentByAdmin() {
+		return isSentByAdmin;
+	}
+
+	public void setSentByAdmin(Boolean sentByAdmin) {
+		isSentByAdmin = sentByAdmin;
+	}
+
+	public Boolean getSentByKoordinator() {
+		return isSentByKoordinator;
+	}
+
+	public void setSentByKoordinator(Boolean sentByKoordinator) {
+		isSentByKoordinator = sentByKoordinator;
+	}
 }

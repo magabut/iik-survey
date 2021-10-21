@@ -7,12 +7,10 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import id.go.lan.pusaka.ikksurvey.model.*;
-import id.go.lan.pusaka.ikksurvey.model.dto.DaftarKebijakanDto;
-import id.go.lan.pusaka.ikksurvey.model.dto.InstansiListResponse;
-import id.go.lan.pusaka.ikksurvey.model.dto.KebijakanDto;
-import id.go.lan.pusaka.ikksurvey.model.dto.SampleKebijakanDto;
+import id.go.lan.pusaka.ikksurvey.model.dto.*;
 import id.go.lan.pusaka.ikksurvey.model.request.*;
 import id.go.lan.pusaka.ikksurvey.service.*;
+import id.go.lan.pusaka.ikksurvey.utility.ModelMapperUtility;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/kebijakan")
 public class KebijakanController {
+	@Autowired
+	private ModelMapperUtility modelMapperUtility;
 	@Autowired
 	KebijakanService kebijakanService;
 	@Autowired
@@ -65,11 +65,33 @@ public class KebijakanController {
 
 	@GetMapping("/koordinatorinstansi/detail/{nip}")
 	@PreAuthorize("hasAnyAuthority('role_koordinator_instansi')")
-	public List<Kebijakan> koordinatorGetDetailKebijakanByInstansi(
+	public DaftarKebijakanInstansiDto koordinatorGetDetailKebijakanByInstansi(
 			@RequestHeader(value = "Authorization") String token,
 			@PathVariable String nip
 	) throws UnirestException {
-		return kebijakanService.findByCreatedBy(getData(nip, token).getNipBaru());
+		List<Kebijakan> kebijakanList = kebijakanService.findByCreatedBy(getData(nip, token).getNipBaru());
+		List<KebijakanDto> kebijakanDtoList = new ArrayList<>();
+		for (Kebijakan kebijakan : kebijakanList) {
+			KebijakanDto kebijakanDto = modelMapperUtility.initialize().map(kebijakan, KebijakanDto.class);
+			kebijakanDtoList.add(kebijakanDto);
+		}
+
+		DaftarKebijakanInstansiDto daftarKebijakanInstansiDto = new DaftarKebijakanInstansiDto();
+		daftarKebijakanInstansiDto.setIsReadySend(validateReadySend(kebijakanDtoList));
+		daftarKebijakanInstansiDto.setKebijakanDtoList(kebijakanDtoList);
+
+		return daftarKebijakanInstansiDto;
+	}
+
+	private Boolean validateReadySend(List<KebijakanDto> kebijakanDtoList) {
+
+		for (KebijakanDto kebijakanDto : kebijakanDtoList) {
+			if (!kebijakanDto.getIsVerified()) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	@PutMapping("/koordinatorinstansi/detail/{nip}/approve/{id}")
@@ -80,6 +102,7 @@ public class KebijakanController {
 	) {
 		Kebijakan kebijakan = kebijakanService.findById(id);
 		kebijakan.setStatus("disetujui");
+		kebijakan.setIsVerified(true);
 		kebijakanService.save(kebijakan);
 		return "Kebijakan disetujui";
 	}
@@ -92,8 +115,25 @@ public class KebijakanController {
 	) {
 		Kebijakan kebijakan = kebijakanService.findById(id);
 		kebijakan.setStatus("ditolak");
+		kebijakan.setIsVerified(true);
 		kebijakanService.save(kebijakan);
 		return "Kebijakan ditolak";
+	}
+
+	@PostMapping("/koordinatorinstansi/detail/{nip}/kirim")
+	@PreAuthorize("hasAnyAuthority('role_koordinator_instansi')")
+	public String koordinatorKirimKebijakanKeAdminInstansi(
+			@RequestHeader(value = "Authorization") String token,
+			@PathVariable String nip
+	) throws UnirestException {
+		List<Kebijakan> kebijakanList = kebijakanService.findByCreatedBy(getData(nip, token).getNipBaru());
+		for (Kebijakan kebijakan : kebijakanList) {
+			if (kebijakan.getIsVerified()) {
+				kebijakan.setSentByKoordinator(true);
+				kebijakanService.save(kebijakan);
+			}
+		}
+		return "Kebijakan berhasil dikirim ke Admin Instansi";
 	}
 
 	// CRUD Kebijakan
@@ -126,6 +166,9 @@ public class KebijakanController {
 		ImplementasiKebijakan implementasiKebijakan = new ImplementasiKebijakan();
 		kebijakan.setImplementasiKebijakan(implementasiKebijakanService.save(implementasiKebijakan));
 		kebijakan.setStatus("diajukan");
+		kebijakan.setIsVerified(false);
+		kebijakan.setSentByAdmin(false);
+		kebijakan.setSentByKoordinator(false);
 		return kebijakanService.save(kebijakan);
 	}
 
@@ -336,6 +379,12 @@ public class KebijakanController {
 		evaluasiKebijakan.setInformasiD4(evaluasiKebijakanRequest.getInformasiD4());
 		return evaluasiKebijakanService.save(evaluasiKebijakan);
 	}
+
+	// Admin Instansi TO DO
+
+//	@PostMapping("/admininstansi/kirim")
+//	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
+//	public
 
 	List<InstansiListResponse> getInstansiList(String nip, String token) throws UnirestException {
 		HttpResponse<JsonNode> response = Unirest.get("http://localhost:8090/user/pegawai/instansi/" + nip)

@@ -16,4 +16,7 @@ public class KebijakanDto {
     private String nama;
     private Date tanggal;
     private String enumerator;
+    private Boolean isVerified;
+    private Boolean isSentByAdmin;
+    private Boolean isSentByKoordinator;
 }
