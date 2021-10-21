@@ -15,6 +15,9 @@ public class KebijakanDto {
     private Long id;
     private String nama;
     private Date tanggal;
+    private String jenis;
+    private String status;
+    private String createBy;
     private String enumerator;
     private Boolean isVerified;
     private Boolean isSentByAdmin;

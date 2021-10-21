@@ -72,6 +72,9 @@ public class KebijakanController {
 		List<Kebijakan> kebijakanList = kebijakanService.findByCreatedBy(getData(nip, token).getNipBaru());
 		List<KebijakanDto> kebijakanDtoList = new ArrayList<>();
 		for (Kebijakan kebijakan : kebijakanList) {
+			kebijakan.getIsVerified();
+			kebijakan.getIsSentByKoordinator();
+			kebijakan.getIsSentByAdmin();
 			KebijakanDto kebijakanDto = modelMapperUtility.initialize().map(kebijakan, KebijakanDto.class);
 			kebijakanDtoList.add(kebijakanDto);
 		}
@@ -129,7 +132,7 @@ public class KebijakanController {
 		List<Kebijakan> kebijakanList = kebijakanService.findByCreatedBy(getData(nip, token).getNipBaru());
 		for (Kebijakan kebijakan : kebijakanList) {
 			if (kebijakan.getIsVerified()) {
-				kebijakan.setSentByKoordinator(true);
+				kebijakan.setIsSentByKoordinator(true);
 				kebijakanService.save(kebijakan);
 			}
 		}
@@ -167,8 +170,8 @@ public class KebijakanController {
 		kebijakan.setImplementasiKebijakan(implementasiKebijakanService.save(implementasiKebijakan));
 		kebijakan.setStatus("diajukan");
 		kebijakan.setIsVerified(false);
-		kebijakan.setSentByAdmin(false);
-		kebijakan.setSentByKoordinator(false);
+		kebijakan.setIsSentByAdmin(false);
+		kebijakan.setIsSentByKoordinator(false);
 		return kebijakanService.save(kebijakan);
 	}
 

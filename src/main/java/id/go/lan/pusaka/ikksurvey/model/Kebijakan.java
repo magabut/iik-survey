@@ -179,19 +179,19 @@ public class Kebijakan {
 		this.isVerified = isVerified;
 	}
 
-	public Boolean getSentByAdmin() {
+	public Boolean getIsSentByAdmin() {
 		return isSentByAdmin;
 	}
 
-	public void setSentByAdmin(Boolean sentByAdmin) {
+	public void setIsSentByAdmin(Boolean sentByAdmin) {
 		isSentByAdmin = sentByAdmin;
 	}
 
-	public Boolean getSentByKoordinator() {
+	public Boolean getIsSentByKoordinator() {
 		return isSentByKoordinator;
 	}
 
-	public void setSentByKoordinator(Boolean sentByKoordinator) {
+	public void setIsSentByKoordinator(Boolean sentByKoordinator) {
 		isSentByKoordinator = sentByKoordinator;
 	}
 }
