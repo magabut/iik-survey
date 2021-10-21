@@ -1,25 +1,19 @@
 package id.go.lan.pusaka.ikksurvey.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import id.go.lan.pusaka.ikksurvey.model.*;
+import id.go.lan.pusaka.ikksurvey.model.dto.DaftarKebijakanDto;
+import id.go.lan.pusaka.ikksurvey.model.dto.InstansiListResponse;
 import id.go.lan.pusaka.ikksurvey.model.dto.KebijakanDto;
 import id.go.lan.pusaka.ikksurvey.model.dto.SampleKebijakanDto;
 import id.go.lan.pusaka.ikksurvey.model.request.*;
 import id.go.lan.pusaka.ikksurvey.service.*;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import com.google.gson.reflect.TypeToken;
-import id.go.lan.pusaka.ikksurvey.model.dto.DaftarKebijakanDto;
-import id.go.lan.pusaka.ikksurvey.model.dto.InstansiDto;
-import net.bytebuddy.description.method.MethodDescription;
-
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +21,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,26 +42,26 @@ public class KebijakanController {
 
 	// Koordinator Instansi
 
-//	@GetMapping("/koordinatorinstansi")
-//	@PreAuthorize("hasAnyAuthority('role_koordinator_instansi')")
-//	public List<DaftarKebijakanDto> koordinatorGetDaftarKebijakan(@RequestHeader(value = "Authorization") String token) throws UnirestException {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		String currentPrincipalName = authentication.getName();
-//
-//		List<DaftarKebijakanDto> daftarKebijakanDtoList = new ArrayList<>();
-//		List<InstansiDto> instansiList = getInstansiList(currentPrincipalName, token);
-//		System.out.println(instansiList.get(0).getInstansiList());
-//
-//		for (InstansiDto instansi : instansiList) {
-//			DaftarKebijakanDto daftarKebijakanDto = new DaftarKebijakanDto();
-//			daftarKebijakanDto.setNamaInstansi(instansi.getInstansiList());
-//			daftarKebijakanDto.setTotalKebijakan(10);
-//			daftarKebijakanDto.setTanggal(new Date());
-//			daftarKebijakanDtoList.add(daftarKebijakanDto);
-//		}
-//
-//		return daftarKebijakanDtoList;
-//	}
+	@GetMapping("/koordinatorinstansi")
+	@PreAuthorize("hasAnyAuthority('role_koordinator_instansi')")
+	public List<DaftarKebijakanDto> koordinatorGetDaftarKebijakan(@RequestHeader(value = "Authorization") String token) throws UnirestException {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+
+		List<DaftarKebijakanDto> daftarKebijakanDtoList = new ArrayList<>();
+		List<InstansiListResponse> instansiList = getInstansiList(currentPrincipalName, token);
+
+		for (InstansiListResponse instansi : instansiList) {
+			DaftarKebijakanDto daftarKebijakanDto = new DaftarKebijakanDto();
+			daftarKebijakanDto.setNamaInstansi(instansi.getNamaInstansi());
+			daftarKebijakanDto.setTotalKebijakan(kebijakanService.countByCreateBy(instansi.getAdminInstansi()));
+			daftarKebijakanDto.setNipAdminInstansi(instansi.getAdminInstansi());
+			daftarKebijakanDto.setTanggal(kebijakanService.findTopByCreateBy(instansi.getAdminInstansi()).getTanggal());
+			daftarKebijakanDtoList.add(daftarKebijakanDto);
+		}
+
+		return daftarKebijakanDtoList;
+	}
 
 	@GetMapping("/koordinatorinstansi/detail/{nip}")
 	@PreAuthorize("hasAnyAuthority('role_koordinator_instansi')")
@@ -341,19 +337,17 @@ public class KebijakanController {
 		return evaluasiKebijakanService.save(evaluasiKebijakan);
 	}
 
-	List<InstansiDto> getInstansiList(String nip, String token) throws UnirestException {
-		try {
-			Unirest.setTimeouts(0,0);
-			HttpResponse<String> response = Unirest.get("http://localhost:8090/user/pegawai/instansi/" + nip)
-					.header("Authorization", token).asString();
-			Gson gson = new Gson();
+	List<InstansiListResponse> getInstansiList(String nip, String token) throws UnirestException {
+		HttpResponse<JsonNode> response = Unirest.get("http://localhost:8090/user/pegawai/instansi/" + nip)
+				.header("Authorization", token)
+				.asJson();
 
-			Type instansiListType = new TypeToken<ArrayList<InstansiDto>>(){}.getType();
-			return gson.fromJson(response.getBody().toString(), instansiListType);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
+		JSONArray object = response.getBody().getArray();
+
+		Gson gson = new Gson();
+		Type instansiListType = new TypeToken<ArrayList<InstansiListResponse>>(){}.getType();
+
+		return gson.fromJson(String.valueOf(object), instansiListType);
 	}
 
 	Pegawai getData(String nip, String token) throws UnirestException {

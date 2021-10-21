@@ -22,9 +22,13 @@ public interface KebijakanService {
 	
 	List<Kebijakan> findByEnumerator(String enumerator);
   
-  List<Kebijakan> findByCreatedBy(String nip);
+  	List<Kebijakan> findByCreatedBy(String nip);
 
 	SampleKebijakanDto findSampleKebijakanByInstansi(String instansi);
 
 	KebijakanDto assignEnumeratorToKebijakan(String instansi, Long idKebijakan, String nipEnumerator);
+
+	Integer countByCreateBy(String nip);
+
+	Kebijakan findTopByCreateBy(String nip);
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 public class DaftarKebijakanDto {
     private String namaInstansi;
     private Integer totalKebijakan;
+    private String nipAdminInstansi;
     private Date tanggal;
 
     public String getNamaInstansi() {
@@ -21,6 +22,14 @@ public class DaftarKebijakanDto {
 
     public void setTotalKebijakan(Integer totalKebijakan) {
         this.totalKebijakan = totalKebijakan;
+    }
+
+    public String getNipAdminInstansi() {
+        return nipAdminInstansi;
+    }
+
+    public void setNipAdminInstansi(String nipAdminInstansi) {
+        this.nipAdminInstansi = nipAdminInstansi;
     }
 
     public Date getTanggal() {

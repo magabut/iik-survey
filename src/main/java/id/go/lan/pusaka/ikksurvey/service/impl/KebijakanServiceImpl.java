@@ -105,6 +105,16 @@ public class KebijakanServiceImpl implements KebijakanService {
 		return modelMapperUtility.initialize().map(savedKebijakan, KebijakanDto.class);
 	}
 
+	@Override
+	public Integer countByCreateBy(String nip) {
+		return kebijakanRepository.countByCreateBy(nip);
+	}
+
+	@Override
+	public Kebijakan findTopByCreateBy(String nip) {
+		return kebijakanRepository.findTopByCreateBy(nip);
+	}
+
 	private List<Kebijakan> generateKebijakanSample(List<Kebijakan> kebijakanList) {
 		int totalKebijakan = kebijakanList.size();
 		int totalSample = (int) Math.floor(Math.sqrt(totalKebijakan) + 1);
