@@ -30,6 +30,8 @@ public class Kebijakan {
 	private Boolean isVerified = false;
 	private Boolean isSentByAdmin = false;
 	private Boolean isSentByKoordinator = false;
+	private Date sentByAdminAt;
+	private Date sentByKoordinatorAt;
 	@OneToOne
 	@JoinColumn(name = "agenda_setting_id", referencedColumnName = "id")
 	@JsonIgnoreProperties("kebijakan")
@@ -193,5 +195,21 @@ public class Kebijakan {
 
 	public void setIsSentByKoordinator(Boolean sentByKoordinator) {
 		isSentByKoordinator = sentByKoordinator;
+	}
+
+	public Date getSentByAdminAt() {
+		return sentByAdminAt;
+	}
+
+	public void setSentByAdminAt(Date sentByAdminAt) {
+		this.sentByAdminAt = sentByAdminAt;
+	}
+
+	public Date getSentByKoordinatorAt() {
+		return sentByKoordinatorAt;
+	}
+
+	public void setSentByKoordinatorAt(Date sentByKoordinatorAt) {
+		this.sentByKoordinatorAt = sentByKoordinatorAt;
 	}
 }

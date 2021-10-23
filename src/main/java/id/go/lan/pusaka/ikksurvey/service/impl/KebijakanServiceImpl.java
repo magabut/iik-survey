@@ -35,6 +35,12 @@ public class KebijakanServiceImpl implements KebijakanService {
 	}
 
 	@Override
+	public Kebijakan delete(Kebijakan kebijakan) {
+		kebijakanRepository.delete(kebijakan);
+		return kebijakan;
+	}
+
+	@Override
 	public List<Kebijakan> findAll() {
 		// TODO Auto-generated method stub
 		return kebijakanRepository.findAll();
@@ -118,6 +124,11 @@ public class KebijakanServiceImpl implements KebijakanService {
 	@Override
 	public Kebijakan findTopByCreateBy(String nip) {
 		return kebijakanRepository.findTopByCreateBy(nip);
+	}
+
+	@Override
+	public List<Kebijakan> findByInstansiAndCreateByAndStatus(String instansi, String createBy, String status) {
+		return kebijakanRepository.findByInstansiAndCreateByAndStatus(instansi, createBy, status);
 	}
 
 	private List<Kebijakan> generateKebijakanSample(List<Kebijakan> kebijakanList) {

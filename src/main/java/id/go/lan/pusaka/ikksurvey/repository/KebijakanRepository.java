@@ -20,6 +20,8 @@ public interface KebijakanRepository extends JpaRepository<Kebijakan, Long> {
 
 	List<Kebijakan> findByInstansiAndStatus(String instansi, String status);
 
+	List<Kebijakan> findByInstansiAndCreateByAndStatus(String instansi, String createBy, String status);
+
 	List<Kebijakan> findByCreateBy(String nip);
 
 	Integer countByCreateBy(String nip);

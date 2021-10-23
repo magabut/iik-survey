@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface KebijakanService {
 
-	public Kebijakan save(Kebijakan kebijakan);
+	Kebijakan save(Kebijakan kebijakan);
+
+	Kebijakan delete(Kebijakan kebijakan);
 
 	List<Kebijakan> findAll();
 
@@ -31,4 +33,6 @@ public interface KebijakanService {
 	Integer countByCreateBy(String nip);
 
 	Kebijakan findTopByCreateBy(String nip);
+
+	List<Kebijakan> findByInstansiAndCreateByAndStatus(String instansi, String createBy, String status);
 }
