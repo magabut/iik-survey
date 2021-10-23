@@ -16,7 +16,7 @@ public class FormulasiKebijakanRequest {
 
 	private Integer b4A;
 
-	private String b4B;
+	private Integer b4B;
 
 	private Integer b4C;
 
@@ -84,11 +84,11 @@ public class FormulasiKebijakanRequest {
 		b4A = b4a;
 	}
 
-	public String getB4B() {
+	public Integer getB4B() {
 		return b4B;
 	}
 
-	public void setB4B(String b4b) {
+	public void setB4B(Integer b4b) {
 		b4B = b4b;
 	}
 

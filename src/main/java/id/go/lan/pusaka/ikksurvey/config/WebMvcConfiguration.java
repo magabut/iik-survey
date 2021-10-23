@@ -47,7 +47,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/ikk/**").addResourceLocations("file:/Users/panji/ikk/");
+		registry.addResourceHandler("/ikk/**").addResourceLocations("file:/opt/data/ikk/");
 	}
 
 }

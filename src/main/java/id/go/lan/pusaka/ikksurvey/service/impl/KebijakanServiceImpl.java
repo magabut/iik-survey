@@ -50,4 +50,10 @@ public class KebijakanServiceImpl implements KebijakanService {
 		return kebijakanRepository.findByEnumerator(enumerator);
 	}
 
+	@Override
+	public Kebijakan findById(Long id) {
+		// TODO Auto-generated method stub
+		return kebijakanRepository.findById(id).orElse(null);
+	}
+
 }

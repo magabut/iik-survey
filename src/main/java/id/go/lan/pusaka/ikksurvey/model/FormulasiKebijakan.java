@@ -40,7 +40,7 @@ public class FormulasiKebijakan {
 	private Integer b4A;
 	private String pathB4A;
 
-	private String b4B;
+	private Integer b4B;
 	private String pathB4B;
 
 	private Integer b4C;
@@ -68,7 +68,7 @@ public class FormulasiKebijakan {
 
 	public FormulasiKebijakan(Long id, Integer b1a, String pathB1A, Integer b1b, String pathB1B, Integer b2a,
 			String pathB2A, Integer b2b, String pathB2B, Integer b3a, String pathB3A, Integer b3c, String pathB3C,
-			Integer b4a, String pathB4A, String b4b, String pathB4B, Integer b4c, String pathB4C, Integer b5a,
+			Integer b4a, String pathB4A, Integer b4b, String pathB4B, Integer b4c, String pathB4C, Integer b5a,
 			String pathB5A, Integer b5b, String pathB5B, Integer b5c, String pathB5C, String informasiB6,
 			Kebijakan kebijakan) {
 		super();
@@ -223,14 +223,6 @@ public class FormulasiKebijakan {
 		this.pathB4A = pathB4A;
 	}
 
-	public String getB4B() {
-		return b4B;
-	}
-
-	public void setB4B(String b4b) {
-		b4B = b4b;
-	}
-
 	public String getPathB4B() {
 		return pathB4B;
 	}
@@ -333,6 +325,10 @@ public class FormulasiKebijakan {
 
 	public void setPathB3B(String pathB3B) {
 		this.pathB3B = pathB3B;
+	}
+
+	public void setB4B(Integer b4b) {
+		b4B = b4b;
 	}
 
 }

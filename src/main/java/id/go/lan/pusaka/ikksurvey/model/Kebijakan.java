@@ -2,6 +2,7 @@ package id.go.lan.pusaka.ikksurvey.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,10 @@ public class Kebijakan {
 	private String instansi;
 	private Date assignAt;
 	private Integer status;
+	private Boolean terverifikasi;
+	@Column(name = "tanggal_verifikasi")
+	private Date tanggalVerifikasi;
+	private String koordinator;
 	@OneToOne
 	@JoinColumn(name = "agenda_setting_id", referencedColumnName = "id")
 	@JsonIgnoreProperties("kebijakan")
@@ -166,6 +171,30 @@ public class Kebijakan {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public Boolean getTerverifikasi() {
+		return terverifikasi;
+	}
+
+	public void setTerverifikasi(Boolean terverifikasi) {
+		this.terverifikasi = terverifikasi;
+	}
+
+	public Date getTanggalVerifikasi() {
+		return tanggalVerifikasi;
+	}
+
+	public void setTanggalVerifikasi(Date tanggalVerifikasi) {
+		this.tanggalVerifikasi = tanggalVerifikasi;
+	}
+
+	public String getKoordinator() {
+		return koordinator;
+	}
+
+	public void setKoordinator(String koordinator) {
+		this.koordinator = koordinator;
 	}
 
 }
