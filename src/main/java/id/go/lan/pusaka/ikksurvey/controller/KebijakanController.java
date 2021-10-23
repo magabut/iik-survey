@@ -299,7 +299,7 @@ public class KebijakanController {
 
 	@PostMapping("/enumerator/agendasetting/{id}")
 	@PreAuthorize("hasAnyAuthority('role_enumerator')")
-	public AgendaSetting simpanKebijakanEnumeratorIdAgendaSeting(@RequestBody AgendSettingRequest agendaSettingRequest,
+	public AgendaSetting simpanKebijakanEnumeratorIdAgendaSeting(@RequestBody AgendaSettingRequest agendaSettingRequest,
 			@PathVariable("id") Long id) throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
