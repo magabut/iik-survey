@@ -15,7 +15,7 @@ public class DashboardAdminInstansiServiceImpl implements DashboardAdminInstansi
     private KebijakanRepository kebijakanRepository;
 
     @Override
-    public DashboardAdminInstansiCardDto getAdminInstansiDashboardCardData(String token) {
+    public DashboardAdminInstansiCardDto getAdminInstansiDashboardCardData() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String nip = authentication.getName();
 

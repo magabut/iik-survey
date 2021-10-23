@@ -20,7 +20,7 @@ public class DashboardController {
 
     @GetMapping("admininstansi")
     @PreAuthorize("hasAnyAuthority('role_admin_instansi')")
-    public ResponseEntity<Object> getAdminInstansiDashboardCard(@RequestHeader(value = "Authorization") String token) {
-        return new ResponseEntity<>(dashboardAdminInstansiService.getAdminInstansiDashboardCardData(token), HttpStatus.OK);
+    public ResponseEntity<Object> getAdminInstansiDashboardCard() {
+        return new ResponseEntity<>(dashboardAdminInstansiService.getAdminInstansiDashboardCardData(), HttpStatus.OK);
     }
 }

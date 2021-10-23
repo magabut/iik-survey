@@ -9,8 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class KoordinatorInstansiCardDto {
+public class DashboardKoordinatorInstansiCardDto {
     private Integer kebijakanMasuk;
-    private Integer kebijakanDisetujui;
+    private Integer kebijakanDiproses;
+    private Integer kebijakanSelesai;
     private Integer kebijakanDitolak;
 }
