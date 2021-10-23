@@ -10,7 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EvaluasiKebijakanDto {
-    private Long id;
+    private Long idKebijakan;
+    private Long idEvaluasiKebijakan;
 
     private String d1A;
     private String pathD1A;
