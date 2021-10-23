@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -31,7 +33,7 @@ public class AgendaSettingDto {
     private String a2B;
     private String pathA2B;
 
-    private String a2C;
+    private List<String> a2C;
     private String pathA2C;
 
     private String informasiA3;
