@@ -319,17 +319,17 @@ public class KebijakanController {
 		return agendaSettingService.save(agendaSetting);
 	}
 
-	@GetMapping("/enumerator/formulasikebijakan/{id}")
-	@PreAuthorize("hasAnyAuthority('role_enumerator')")
-	public FormulasiKebijakan findKebijakanEnumeratorIdFormulasiKebijakan(@PathVariable("id") Long id)
-			throws UnirestException {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
-		Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, id);
-
-		FormulasiKebijakan formulasiKebijakan = kebijakan.getFormulasiKebijakan();
-		return formulasiKebijakan;
-	}
+//	@GetMapping("/enumerator/formulasikebijakan/{id}")
+//	@PreAuthorize("hasAnyAuthority('role_enumerator')")
+//	public FormulasiKebijakan findKebijakanEnumeratorIdFormulasiKebijakan(@PathVariable("id") Long id)
+//			throws UnirestException {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		String currentPrincipalName = authentication.getName();
+//		Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, id);
+//
+//		FormulasiKebijakan formulasiKebijakan = kebijakan.getFormulasiKebijakan();
+//		return formulasiKebijakan;
+//	}
 
 	@PostMapping("/enumerator/formulasikebijakan/{id}")
 	@PreAuthorize("hasAnyAuthority('role_enumerator')")
