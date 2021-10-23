@@ -26,5 +26,7 @@ public interface KebijakanRepository extends JpaRepository<Kebijakan, Long> {
 
 	List<Kebijakan> findByCreateBy(String nip);
 
+	List<Kebijakan> findByInstansiAndIsSentByAdmin(String instansi, Boolean isSentByAdmin);
+
 	Integer countByCreateByAndIsSentByAdminEquals(String createBy, Boolean isSentByAdmin);
 }

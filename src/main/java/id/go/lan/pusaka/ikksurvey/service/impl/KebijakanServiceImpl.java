@@ -82,12 +82,11 @@ public class KebijakanServiceImpl implements KebijakanService {
 
   @Override
 	public SampleKebijakanDto findSampleKebijakanByInstansi(String instansi) {
-		List<Kebijakan> kebijakanDiajukanList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DIAJUKAN);
+
+		List<Kebijakan> kebijakanDiajukanList = kebijakanRepository.findByInstansiAndIsSentByAdmin(instansi, true);
 		List<Kebijakan> kebijakanDisetujuiList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DISETUJUI);
-		List<Kebijakan> kebijakanDitolakList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DITOLAK);
 
 		int totalKebijakanDisetujui = kebijakanDisetujuiList.size();
-		int totalKebijakanDitolak = kebijakanDitolakList.size();
 	  	int totalKebijakanDiajukan = kebijakanDiajukanList.size();
 
 	  	List<KebijakanDto> kebijakanSampleDtoList = new ArrayList<>();
@@ -102,12 +101,14 @@ public class KebijakanServiceImpl implements KebijakanService {
 					totalKebijakanDiajukan,
 					totalKebijakanDisetujui,
 					kebijakanSampleList.size(),
+					false,
 					kebijakanSampleDtoList);
 		}
 		  return new SampleKebijakanDto(
 				  totalKebijakanDiajukan,
 				  totalKebijakanDisetujui,
 				  0,
+				  false,
 				  kebijakanSampleDtoList);
 	}
 

@@ -15,5 +15,6 @@ public class SampleKebijakanDto {
     private int totalKebijakanDiajukan;
     private int totalKebijakanDisetujui;
     private int totalSampleKebijakan;
+    private Boolean isRandomized = false;
     private List<KebijakanDto> sampleKebijakanList;
 }

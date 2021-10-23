@@ -39,6 +39,8 @@ public class KebijakanController {
 	FormulasiKebijakanService formulasiKebijakanService;
 	@Autowired
 	ImplementasiKebijakanService implementasiKebijakanService;
+	@Autowired
+	RandomizedKebijakanService randomizedKebijakanService;
 
 	// Koordinator Instansi
 
