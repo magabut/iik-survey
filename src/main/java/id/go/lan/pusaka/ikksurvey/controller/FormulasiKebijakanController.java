@@ -57,7 +57,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB1A(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -67,7 +67,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB1A(answer);
             formulasiKebijakan.setPathB1A(uploadFile(file, currentPrincipalName));
 
@@ -91,7 +91,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB1B(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -101,7 +101,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB1B(answer);
             formulasiKebijakan.setPathB1B(uploadFile(file, currentPrincipalName));
 
@@ -125,7 +125,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB2A(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -135,7 +135,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB2A(answer);
             formulasiKebijakan.setPathB2A(uploadFile(file, currentPrincipalName));
 
@@ -159,7 +159,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB2B(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -169,7 +169,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB2B(answer);
             formulasiKebijakan.setPathB2B(uploadFile(file, currentPrincipalName));
 
@@ -193,7 +193,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB3A(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -203,7 +203,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB3A(answer);
             formulasiKebijakan.setPathB3A(uploadFile(file, currentPrincipalName));
 
@@ -227,7 +227,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB3B(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -237,7 +237,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB3B(answer);
             formulasiKebijakan.setPathB3B(uploadFile(file, currentPrincipalName));
 
@@ -261,7 +261,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB3C(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -271,7 +271,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB3C(answer);
             formulasiKebijakan.setPathB3C(uploadFile(file, currentPrincipalName));
 
@@ -295,7 +295,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB4A(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -305,7 +305,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB4A(answer);
             formulasiKebijakan.setPathB4A(uploadFile(file, currentPrincipalName));
 
@@ -329,7 +329,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB4B(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -339,7 +339,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB4B(answer);
             formulasiKebijakan.setPathB4B(uploadFile(file, currentPrincipalName));
 
@@ -363,7 +363,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB4C(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -373,7 +373,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB4C(answer);
             formulasiKebijakan.setPathB4C(uploadFile(file, currentPrincipalName));
 
@@ -397,7 +397,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB5A(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -407,7 +407,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB5A(answer);
             formulasiKebijakan.setPathB5A(uploadFile(file, currentPrincipalName));
 
@@ -431,7 +431,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB5B(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -441,7 +441,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB5B(answer);
             formulasiKebijakan.setPathB5B(uploadFile(file, currentPrincipalName));
 
@@ -465,7 +465,7 @@ public class FormulasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB5C(answer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
@@ -475,7 +475,7 @@ public class FormulasiKebijakanController {
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getAgendaSetting().getId());
+            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB5C(answer);
             formulasiKebijakan.setPathB5C(uploadFile(file, currentPrincipalName));
 
