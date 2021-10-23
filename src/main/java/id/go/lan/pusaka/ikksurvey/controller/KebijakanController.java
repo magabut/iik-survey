@@ -135,6 +135,7 @@ public class KebijakanController {
 		for (Kebijakan kebijakan : kebijakanList) {
 			if (kebijakan.getIsVerified()) {
 				kebijakan.setIsSentByKoordinator(true);
+				kebijakan.setSentByKoordinatorAt(new Date());
 				kebijakanService.save(kebijakan);
 			}
 		}
