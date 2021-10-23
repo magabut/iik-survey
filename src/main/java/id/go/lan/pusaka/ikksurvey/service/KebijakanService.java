@@ -1,5 +1,6 @@
 package id.go.lan.pusaka.ikksurvey.service;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import id.go.lan.pusaka.ikksurvey.model.Kebijakan;
 import id.go.lan.pusaka.ikksurvey.model.dto.KebijakanDto;
 import id.go.lan.pusaka.ikksurvey.model.dto.SampleKebijakanDto;
@@ -30,9 +31,9 @@ public interface KebijakanService {
 
 	KebijakanDto assignEnumeratorToKebijakan(String instansi, Long idKebijakan, String nipEnumerator);
 
-	Integer countByCreateBy(String nip);
+	Integer countByCreateByAndIsSentByAdminEquals(String nip);
 
-	Kebijakan findTopByCreateBy(String nip);
+	List<Kebijakan> findByInstansiAndCreateByAndIsSentByAdminEquals(String instansi, String nip);
 
 	List<Kebijakan> findByInstansiAndCreateByAndStatus(String instansi, String createBy, String status);
 }

@@ -117,22 +117,20 @@ public class KebijakanServiceImpl implements KebijakanService {
 		Kebijakan kebijakan = kebijakanRepository.findByInstansiAndId(instansi, idKebijakan);
 		kebijakan.setEnumerator(nipEnumerator);
 		kebijakan.setStatus(STATUS_KEBIJAKAN_PROSES);
+		kebijakan.setAssignAt(new Date());
 		Kebijakan savedKebijakan = kebijakanRepository.save(kebijakan);
 		return modelMapperUtility.initialize().map(savedKebijakan, KebijakanDto.class);
 	}
 
 	@Override
-	public Integer countByCreateBy(String nip) {
-		if (kebijakanRepository.countByCreateBy(nip).equals(null)) {
-			return 0;
-		} else {
-			return kebijakanRepository.countByCreateBy(nip);
-		}
+	public Integer countByCreateByAndIsSentByAdminEquals(String nip) {
+		kebijakanRepository.countByCreateByAndIsSentByAdminEquals(nip, true);
+		return kebijakanRepository.countByCreateByAndIsSentByAdminEquals(nip, true);
 	}
 
 	@Override
-	public Kebijakan findTopByCreateBy(String nip) {
-		return kebijakanRepository.findTopByCreateBy(nip);
+	public List<Kebijakan> findByInstansiAndCreateByAndIsSentByAdminEquals(String instansi, String nip) {
+		return kebijakanRepository.findByInstansiAndCreateByAndIsSentByAdminEquals(instansi, nip, true);
 	}
 
 	@Override
