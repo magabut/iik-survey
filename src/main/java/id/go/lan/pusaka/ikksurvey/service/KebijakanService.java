@@ -1,6 +1,5 @@
 package id.go.lan.pusaka.ikksurvey.service;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import id.go.lan.pusaka.ikksurvey.model.Kebijakan;
 import id.go.lan.pusaka.ikksurvey.model.dto.KebijakanDto;
 import id.go.lan.pusaka.ikksurvey.model.dto.SampleKebijakanDto;
@@ -11,7 +10,7 @@ public interface KebijakanService {
 
 	Kebijakan save(Kebijakan kebijakan);
 
-	Kebijakan delete(Kebijakan kebijakan);
+	void delete(Kebijakan kebijakan);
 
 	List<Kebijakan> findAll();
 

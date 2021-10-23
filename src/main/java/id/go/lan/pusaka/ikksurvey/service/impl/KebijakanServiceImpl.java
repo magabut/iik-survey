@@ -35,9 +35,8 @@ public class KebijakanServiceImpl implements KebijakanService {
 	}
 
 	@Override
-	public Kebijakan delete(Kebijakan kebijakan) {
+	public void delete(Kebijakan kebijakan) {
 		kebijakanRepository.delete(kebijakan);
-		return kebijakan;
 	}
 
 	@Override
@@ -116,7 +115,7 @@ public class KebijakanServiceImpl implements KebijakanService {
 	public KebijakanDto assignEnumeratorToKebijakan(String instansi, Long idKebijakan, String nipEnumerator) {
 		Kebijakan kebijakan = kebijakanRepository.findByInstansiAndId(instansi, idKebijakan);
 		kebijakan.setEnumerator(nipEnumerator);
-		kebijakan.setStatus(STATUS_KEBIJAKAN_PROSES);
+		kebijakan.setStatus(STATUS_KEBIJAKAN_DISETUJUI);
 		kebijakan.setAssignAt(new Date());
 		Kebijakan savedKebijakan = kebijakanRepository.save(kebijakan);
 		return modelMapperUtility.initialize().map(savedKebijakan, KebijakanDto.class);
