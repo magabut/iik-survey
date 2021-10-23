@@ -19,7 +19,10 @@ import java.io.FileOutputStream;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/kebijakan/enumerator")
@@ -51,21 +54,33 @@ public class AgendaSettingController {
     public AgendaSettingDto saveKebijakanEnumeratorIdAgendaSettingA1A(
             @PathVariable("idKebijakan") Long idKebijakan,
             @RequestParam("answer") String answer,
-            @RequestParam("file")MultipartFile file) {
+            @RequestParam(value = "file", required = false) MultipartFile file) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-        agendaSetting.setA1A(answer);
-        agendaSetting.setPathA1A(uploadFile(file, currentPrincipalName));
+        if (file == null) {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA1A(answer);
 
-        AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
-        AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
-        agendaSettingDto.setIdKebijakan(kebijakan.getId());
-        agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
-        return agendaSettingDto;
+            return agendaSettingDto;
+        } else {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA1A(answer);
+            agendaSetting.setPathA1A(uploadFile(file, currentPrincipalName));
+
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+
+            return agendaSettingDto;
+        }
     }
 
     @PostMapping("/agendasetting/{idKebijakan}/a1b")
@@ -73,21 +88,33 @@ public class AgendaSettingController {
     public AgendaSettingDto saveKebijakanEnumeratorIdAgendaSettingA1B(
             @PathVariable("idKebijakan") Long idKebijakan,
             @RequestParam("answer") String answer,
-            @RequestParam("file")MultipartFile file) {
+            @RequestParam(value = "file", required = false) MultipartFile file) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-        agendaSetting.setA1B(answer);
-        agendaSetting.setPathA1B(uploadFile(file, currentPrincipalName));
+        if (file == null) {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA1B(answer);
 
-        AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
-        AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
-        agendaSettingDto.setIdKebijakan(kebijakan.getId());
-        agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
-        return agendaSettingDto;
+            return agendaSettingDto;
+        } else {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA1B(answer);
+            agendaSetting.setPathA1B(uploadFile(file, currentPrincipalName));
+
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+
+            return agendaSettingDto;
+        }
     }
 
     @PostMapping("/agendasetting/{idKebijakan}/a1c")
@@ -95,21 +122,34 @@ public class AgendaSettingController {
     public AgendaSettingDto saveKebijakanEnumeratorIdAgendaSettingA1C(
             @PathVariable("idKebijakan") Long idKebijakan,
             @RequestParam("answer") String answer,
-            @RequestParam("file")MultipartFile file) {
+            @RequestParam(value = "file", required = false) MultipartFile file) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-        agendaSetting.setA1C(answer);
-        agendaSetting.setPathA1C(uploadFile(file, currentPrincipalName));
+        if (file == null) {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA1C(answer);
 
-        AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
-        AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
-        agendaSettingDto.setIdKebijakan(kebijakan.getId());
-        agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
-        return agendaSettingDto;
+            return agendaSettingDto;
+        } else {
+
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA1C(answer);
+            agendaSetting.setPathA1C(uploadFile(file, currentPrincipalName));
+
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+
+            return agendaSettingDto;
+        }
     }
 
     @PostMapping("/agendasetting/{idKebijakan}/a1d")
@@ -117,21 +157,33 @@ public class AgendaSettingController {
     public AgendaSettingDto saveKebijakanEnumeratorIdAgendaSettingA1D(
             @PathVariable("idKebijakan") Long idKebijakan,
             @RequestParam("answer") String answer,
-            @RequestParam("file")MultipartFile file) {
+            @RequestParam(value = "file", required = false) MultipartFile file) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-        agendaSetting.setA1D(answer);
-        agendaSetting.setPathA1D(uploadFile(file, currentPrincipalName));
+        if (file == null) {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA1D(answer);
 
-        AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
-        AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
-        agendaSettingDto.setIdKebijakan(kebijakan.getId());
-        agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
-        return agendaSettingDto;
+            return agendaSettingDto;
+        } else {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA1D(answer);
+            agendaSetting.setPathA1D(uploadFile(file, currentPrincipalName));
+
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+
+            return agendaSettingDto;
+        }
     }
 
     @PostMapping("/agendasetting/{idKebijakan}/a2a")
@@ -139,21 +191,33 @@ public class AgendaSettingController {
     public AgendaSettingDto saveKebijakanEnumeratorIdAgendaSettingA2A(
             @PathVariable("idKebijakan") Long idKebijakan,
             @RequestParam("answer") String answer,
-            @RequestParam("file")MultipartFile file) {
+            @RequestParam(value = "file", required = false) MultipartFile file) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-        agendaSetting.setA2A(answer);
-        agendaSetting.setPathA2A(uploadFile(file, currentPrincipalName));
+        if (file == null) {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA2A(answer);
 
-        AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
-        AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
-        agendaSettingDto.setIdKebijakan(kebijakan.getId());
-        agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
-        return agendaSettingDto;
+            return agendaSettingDto;
+        } else {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA2A(answer);
+            agendaSetting.setPathA2A(uploadFile(file, currentPrincipalName));
+
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+
+            return agendaSettingDto;
+        }
     }
 
     @PostMapping("/agendasetting/{idKebijakan}/a2b")
@@ -161,21 +225,33 @@ public class AgendaSettingController {
     public AgendaSettingDto saveKebijakanEnumeratorIdAgendaSettingA2B(
             @PathVariable("idKebijakan") Long idKebijakan,
             @RequestParam("answer") String answer,
-            @RequestParam("file")MultipartFile file) {
+            @RequestParam(value = "file", required = false) MultipartFile file) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-        agendaSetting.setA2B(answer);
-        agendaSetting.setPathA2B(uploadFile(file, currentPrincipalName));
+        if (file == null) {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA2B(answer);
 
-        AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
-        AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
-        agendaSettingDto.setIdKebijakan(kebijakan.getId());
-        agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
-        return agendaSettingDto;
+            return agendaSettingDto;
+        } else {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA2B(answer);
+            agendaSetting.setPathA2B(uploadFile(file, currentPrincipalName));
+
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+
+            return agendaSettingDto;
+        }
     }
 
     @PostMapping("/agendasetting/{idKebijakan}/a2c")
@@ -183,21 +259,39 @@ public class AgendaSettingController {
     public AgendaSettingDto saveKebijakanEnumeratorIdAgendaSettingA2C(
             @PathVariable("idKebijakan") Long idKebijakan,
             @RequestParam("answer") String answer,
-            @RequestParam("file")MultipartFile file) {
+            @RequestParam(value = "file", required = false) MultipartFile file) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-        agendaSetting.setA2C(answer);
-        agendaSetting.setPathA2C(uploadFile(file, currentPrincipalName));
+        List<String> a2cList = Stream.of(answer.split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
 
-        AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
-        AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
-        agendaSettingDto.setIdKebijakan(kebijakan.getId());
-        agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+        if (file == null) {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA2C(answer);
 
-        return agendaSettingDto;
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+            agendaSettingDto.setA2C(a2cList);
+
+            return agendaSettingDto;
+        } else {
+            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+            agendaSetting.setA2C(answer);
+            agendaSetting.setPathA2C(uploadFile(file, currentPrincipalName));
+
+            AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+            AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
+            agendaSettingDto.setIdKebijakan(kebijakan.getId());
+            agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
+            agendaSettingDto.setA2C(a2cList);
+
+            return agendaSettingDto;
+        }
     }
 
     @PostMapping("/agendasetting/{idKebijakan}/informasia3")
