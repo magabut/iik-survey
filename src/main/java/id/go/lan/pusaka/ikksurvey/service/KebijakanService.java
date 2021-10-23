@@ -26,7 +26,9 @@ public interface KebijakanService {
   
   	List<Kebijakan> findByCreatedBy(String nip);
 
-	SampleKebijakanDto findSampleKebijakanByInstansi(String instansi);
+	SampleKebijakanDto findSampleKebijakanByInstansi(String instansi, String nip);
+
+	SampleKebijakanDto addSampleKebijakanByInstansi(String instansi, String nip);
 
 	KebijakanDto assignEnumeratorToKebijakan(String instansi, Long idKebijakan, String nipEnumerator);
 

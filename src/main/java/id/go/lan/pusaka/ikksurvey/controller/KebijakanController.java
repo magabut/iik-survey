@@ -39,8 +39,6 @@ public class KebijakanController {
 	FormulasiKebijakanService formulasiKebijakanService;
 	@Autowired
 	ImplementasiKebijakanService implementasiKebijakanService;
-	@Autowired
-	RandomizedKebijakanService randomizedKebijakanService;
 
 	// Koordinator Instansi
 
@@ -227,7 +225,21 @@ public class KebijakanController {
 	public SampleKebijakanDto findSampleKebijakan(@RequestHeader(value = "Authorization") String token) throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
-		return kebijakanService.findSampleKebijakanByInstansi(getData(currentPrincipalName, token).getInstansiKerjaNama());
+		return kebijakanService.findSampleKebijakanByInstansi(
+				getData(currentPrincipalName, token).getInstansiKerjaNama(),
+				currentPrincipalName
+		);
+	}
+
+	@PostMapping("/sampling")
+	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
+	public SampleKebijakanDto addSampleKebijakan(@RequestHeader(value = "Authorization") String token) throws UnirestException {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		return kebijakanService.addSampleKebijakanByInstansi(
+				getData(currentPrincipalName, token).getInstansiKerjaNama(),
+				currentPrincipalName
+		);
 	}
 
 	@PutMapping("/update/{id}")

@@ -1,10 +1,13 @@
 package id.go.lan.pusaka.ikksurvey.service.impl;
 
+import id.go.lan.pusaka.ikksurvey.exception.ResourceNotFoundException;
 import id.go.lan.pusaka.ikksurvey.model.Kebijakan;
+import id.go.lan.pusaka.ikksurvey.model.RandomizedKebijakan;
 import id.go.lan.pusaka.ikksurvey.model.dto.KebijakanDto;
 import id.go.lan.pusaka.ikksurvey.model.dto.SampleKebijakanDto;
 import id.go.lan.pusaka.ikksurvey.repository.KebijakanRepository;
 import id.go.lan.pusaka.ikksurvey.service.KebijakanService;
+import id.go.lan.pusaka.ikksurvey.service.RandomizedKebijakanService;
 import id.go.lan.pusaka.ikksurvey.utility.ModelMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,9 @@ public class KebijakanServiceImpl implements KebijakanService {
 
 	@Autowired
 	KebijakanRepository kebijakanRepository;
+
+	@Autowired
+	RandomizedKebijakanService randomizedKebijakanService;
 
 	@Override
 	public Kebijakan save(Kebijakan kebijakan) {
@@ -81,7 +87,7 @@ public class KebijakanServiceImpl implements KebijakanService {
   }
 
   @Override
-	public SampleKebijakanDto findSampleKebijakanByInstansi(String instansi) {
+	public SampleKebijakanDto findSampleKebijakanByInstansi(String instansi, String nip) {
 
 		List<Kebijakan> kebijakanDiajukanList = kebijakanRepository.findByInstansiAndIsSentByAdmin(instansi, true);
 		List<Kebijakan> kebijakanDisetujuiList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DISETUJUI);
@@ -90,26 +96,65 @@ public class KebijakanServiceImpl implements KebijakanService {
 	  	int totalKebijakanDiajukan = kebijakanDiajukanList.size();
 
 	  	List<KebijakanDto> kebijakanSampleDtoList = new ArrayList<>();
-	  	if (kebijakanDisetujuiList.size() != 0) {
+	  	if (!randomizedKebijakanService.countByNipAdminInstansi(nip).equals(0)) {
+			if (kebijakanDisetujuiList.size() != 0) {
+				List<Kebijakan> kebijakanSampleList = new ArrayList<>();
+				List<RandomizedKebijakan> randomizedKebijakanList = randomizedKebijakanService.findByNipAdminInstansi(nip);
+				for (RandomizedKebijakan randomizedKebijakan : randomizedKebijakanList) {
+					Kebijakan kebijakan = kebijakanRepository.findById(randomizedKebijakan.getIdKebijakan())
+							.orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+					KebijakanDto kebijakanDto = modelMapperUtility.initialize().map(kebijakan, KebijakanDto.class);
+					kebijakanSampleList.add(kebijakan);
+					kebijakanSampleDtoList.add(kebijakanDto);
+				}
+
+				return new SampleKebijakanDto(
+						totalKebijakanDiajukan,
+						totalKebijakanDisetujui,
+						kebijakanSampleList.size(),
+						true,
+						kebijakanSampleDtoList);
+			}
+		}
+
+		return new SampleKebijakanDto(
+				totalKebijakanDiajukan,
+				totalKebijakanDisetujui,
+				0,
+				false,
+				kebijakanSampleDtoList);
+	}
+
+	@Override
+	public SampleKebijakanDto addSampleKebijakanByInstansi(String instansi, String nip) {
+
+		List<Kebijakan> kebijakanDiajukanList = kebijakanRepository.findByInstansiAndIsSentByAdmin(instansi, true);
+		List<Kebijakan> kebijakanDisetujuiList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DISETUJUI);
+
+		int totalKebijakanDisetujui = kebijakanDisetujuiList.size();
+		int totalKebijakanDiajukan = kebijakanDiajukanList.size();
+
+		List<KebijakanDto> kebijakanSampleDtoList = new ArrayList<>();
+		if (randomizedKebijakanService.countByNipAdminInstansi(nip).equals(0)) {
 			List<Kebijakan> kebijakanSampleList = generateKebijakanSample(kebijakanDisetujuiList);
 			for (Kebijakan kebijakan : kebijakanSampleList) {
 				KebijakanDto kebijakanDto = modelMapperUtility.initialize().map(kebijakan, KebijakanDto.class);
 				kebijakanSampleDtoList.add(kebijakanDto);
+
+				RandomizedKebijakan randomizedKebijakan = new RandomizedKebijakan();
+				randomizedKebijakan.setIdKebijakan(kebijakan.getId());
+				randomizedKebijakan.setNipAdminInstansi(kebijakan.getCreateBy());
+				randomizedKebijakanService.save(randomizedKebijakan);
 			}
 
 			return new SampleKebijakanDto(
 					totalKebijakanDiajukan,
 					totalKebijakanDisetujui,
 					kebijakanSampleList.size(),
-					false,
+					true,
 					kebijakanSampleDtoList);
 		}
-		  return new SampleKebijakanDto(
-				  totalKebijakanDiajukan,
-				  totalKebijakanDisetujui,
-				  0,
-				  false,
-				  kebijakanSampleDtoList);
+		return null;
 	}
 
 	@Override
