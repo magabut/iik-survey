@@ -264,10 +264,6 @@ public class AgendaSettingController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        List<String> a2cList = Stream.of(answer.split(","))
-                .map(String::trim)
-                .collect(Collectors.toList());
-
         if (file == null) {
             AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
             agendaSetting.setA2C(answer);
@@ -276,7 +272,6 @@ public class AgendaSettingController {
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
-            agendaSettingDto.setA2C(a2cList);
 
             return agendaSettingDto;
         } else {
@@ -288,7 +283,6 @@ public class AgendaSettingController {
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
-            agendaSettingDto.setA2C(a2cList);
 
             return agendaSettingDto;
         }
