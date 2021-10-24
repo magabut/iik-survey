@@ -295,7 +295,7 @@ public class ImplementasiKebijakanController {
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
         ImplementasiKebijakan implementasiKebijakan = implementasiKebijakanService.findById(kebijakan.getImplementasiKebijakan().getId());
-        String currentAnswer = implementasiKebijakan.getC1C();
+        String currentAnswer = implementasiKebijakan.getC2C();
 
         if (file == null) {
             implementasiKebijakan.setC2C(answer);
