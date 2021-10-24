@@ -19,6 +19,7 @@ public class KebijakanDto {
     private String status;
     private String createBy;
     private String enumerator;
+    private Double progres;
     private Boolean isVerified;
     private Boolean isSentByAdmin;
     private Boolean isSentByKoordinator;
