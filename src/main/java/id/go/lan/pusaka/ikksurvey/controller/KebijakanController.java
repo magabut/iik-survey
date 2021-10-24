@@ -54,7 +54,7 @@ public class KebijakanController {
 		for (InstansiListResponse instansi : instansiList) {
 			DaftarKebijakanDto daftarKebijakanDto = new DaftarKebijakanDto();
 			daftarKebijakanDto.setNamaInstansi(instansi.getNamaInstansi());
-			daftarKebijakanDto.setTotalKebijakan(kebijakanService.countByCreateBy(instansi.getAdminInstansi()));
+			daftarKebijakanDto.setTotalKebijakan(kebijakanService.countByCreateByAndIsSentByAdminEquals(instansi.getAdminInstansi()));
 			daftarKebijakanDto.setNipAdminInstansi(instansi.getAdminInstansi());
 			daftarKebijakanDto.setTanggal(new Date());
 			// TO DO -> masih null
@@ -71,12 +71,12 @@ public class KebijakanController {
 			@RequestHeader(value = "Authorization") String token,
 			@PathVariable String nip
 	) throws UnirestException {
-		List<Kebijakan> kebijakanList = kebijakanService.findByCreatedBy(getData(nip, token).getNipBaru());
+		List<Kebijakan> kebijakanList = kebijakanService.findByInstansiAndCreateByAndIsSentByAdminEquals(
+				getData(nip, token).getInstansiKerjaNama(),
+				getData(nip, token).getNipBaru()
+		);
 		List<KebijakanDto> kebijakanDtoList = new ArrayList<>();
 		for (Kebijakan kebijakan : kebijakanList) {
-			kebijakan.getIsVerified();
-			kebijakan.getIsSentByKoordinator();
-			kebijakan.getIsSentByAdmin();
 			KebijakanDto kebijakanDto = modelMapperUtility.initialize().map(kebijakan, KebijakanDto.class);
 			kebijakanDtoList.add(kebijakanDto);
 		}
@@ -99,7 +99,7 @@ public class KebijakanController {
 		return true;
 	}
 
-	@PutMapping("/koordinatorinstansi/detail/{nip}/approve/{id}")
+	@PostMapping("/koordinatorinstansi/detail/{nip}/approve/{id}")
 	@PreAuthorize("hasAnyAuthority('role_koordinator_instansi')")
 	public String koordinatorApproveKebijakanByInstansi(
 			@PathVariable String nip,
@@ -112,7 +112,7 @@ public class KebijakanController {
 		return "Kebijakan disetujui";
 	}
 
-	@PutMapping("/koordinatorinstansi/detail/{nip}/disapprove/{id}")
+	@PostMapping("/koordinatorinstansi/detail/{nip}/disapprove/{id}")
 	@PreAuthorize("hasAnyAuthority('role_koordinator_instansi')")
 	public String koordinatorDisapproveKebijakanByInstansi(
 			@PathVariable String nip,
@@ -229,7 +229,21 @@ public class KebijakanController {
 	public SampleKebijakanDto findSampleKebijakan(@RequestHeader(value = "Authorization") String token) throws UnirestException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
-		return kebijakanService.findSampleKebijakanByInstansi(getData(currentPrincipalName, token).getInstansiKerjaNama());
+		return kebijakanService.findSampleKebijakanByInstansi(
+				getData(currentPrincipalName, token).getInstansiKerjaNama(),
+				currentPrincipalName
+		);
+	}
+
+	@PostMapping("/sampling")
+	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
+	public SampleKebijakanDto addSampleKebijakan(@RequestHeader(value = "Authorization") String token) throws UnirestException {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		return kebijakanService.addSampleKebijakanByInstansi(
+				getData(currentPrincipalName, token).getInstansiKerjaNama(),
+				currentPrincipalName
+		);
 	}
 
 	@PutMapping("/update/{id}")
