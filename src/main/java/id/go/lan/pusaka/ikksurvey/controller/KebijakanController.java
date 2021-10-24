@@ -162,6 +162,9 @@ public class KebijakanController {
 		kebijakan.setCreateBy(currentPrincipalName);
 		kebijakan.setCreatedAt(new Date());
 		kebijakanRequest.setTanggal(kebijakanRequest.getTanggal());
+		KebijakanDetail kebijakanDetail = new KebijakanDetail();
+		kebijakanDetail.setProgres(0.0);
+		kebijakan.setKebijakanDetail(kebijakanDetail);
 		AgendaSetting agendaSetting = new AgendaSetting();
 		kebijakan.setAgendaSetting(agendaSettingService.save(agendaSetting));
 		EvaluasiKebijakan evaluasiKebijakan = new EvaluasiKebijakan();
