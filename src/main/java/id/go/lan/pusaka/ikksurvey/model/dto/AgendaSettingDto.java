@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,4 +39,11 @@ public class AgendaSettingDto {
     private String pathA2C;
 
     private String informasiA3;
+
+    public void setA2C(String a2c) {
+        List<String> a2cList = Stream.of(a2c.split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
+        this.a2C = a2cList;
+    }
 }
