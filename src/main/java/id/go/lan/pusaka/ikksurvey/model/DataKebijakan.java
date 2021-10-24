@@ -23,6 +23,7 @@ public class DataKebijakan {
 
     private String namaInstansi;
     private String nipAdminInstansi;
+    private String nipKoordinatorInstansi;
     private Integer kebijakanDiajukan = 0;
     private Integer kebijakanDisetujui = 0;
     private Integer kebijakanDiproses = 0;

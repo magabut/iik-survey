@@ -21,12 +21,21 @@ public class DataKebijakanServiceImpl implements DataKebijakanService {
     }
 
     @Override
+    public List<DataKebijakan> findDataKebijakansByNipAdminKoordinatorInstansi(String nip) {
+        return dataKebijakanRepository.findDataKebijakansByNipKoordinatorInstansi(nip);
+    }
+
+    @Override
     public void save(DataKebijakan dataKebijakan) {
         dataKebijakanRepository.save(dataKebijakan);
     }
 
     @Override
     public Boolean isExists(String nip) {
-        return dataKebijakanRepository.existsById(findDataKebijakanByNipAdminInstansi(nip).getId());
+        if (findDataKebijakanByNipAdminInstansi(nip) != null) {
+            return dataKebijakanRepository.existsById(findDataKebijakanByNipAdminInstansi(nip).getId());
+        } else {
+            return false;
+        }
     }
 }

@@ -2,6 +2,7 @@ package id.go.lan.pusaka.ikksurvey.controller;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 import id.go.lan.pusaka.ikksurvey.service.DashboardAdminInstansiService;
+import id.go.lan.pusaka.ikksurvey.service.DashboardKoordinatorInstansiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,18 @@ public class DashboardController {
     @Autowired
     private DashboardAdminInstansiService dashboardAdminInstansiService;
 
+    @Autowired
+    private DashboardKoordinatorInstansiService dashboardKoordinatorInstansiService;
+
     @GetMapping("admininstansi")
     @PreAuthorize("hasAnyAuthority('role_admin_instansi')")
     public ResponseEntity<Object> getAdminInstansiDashboardCard() {
         return new ResponseEntity<>(dashboardAdminInstansiService.getAdminInstansiDashboardCardData(), HttpStatus.OK);
+    }
+
+    @GetMapping("koordinatorinstansi")
+    @PreAuthorize("hasAnyAuthority('role_koordinator_instansi')")
+    public ResponseEntity<Object> getKoordinatorInstansiDashboardCard() {
+        return new ResponseEntity<>(dashboardKoordinatorInstansiService.getKoordinatorInstansiDashboardCardData(), HttpStatus.OK);
     }
 }

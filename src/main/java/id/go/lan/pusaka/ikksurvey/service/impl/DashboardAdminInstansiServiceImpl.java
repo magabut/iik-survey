@@ -1,8 +1,9 @@
 package id.go.lan.pusaka.ikksurvey.service.impl;
 
+import id.go.lan.pusaka.ikksurvey.model.DataKebijakan;
 import id.go.lan.pusaka.ikksurvey.model.dto.dashboard.DashboardAdminInstansiCardDto;
-import id.go.lan.pusaka.ikksurvey.repository.KebijakanRepository;
 import id.go.lan.pusaka.ikksurvey.service.DashboardAdminInstansiService;
+import id.go.lan.pusaka.ikksurvey.service.DataKebijakanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,16 +13,18 @@ import org.springframework.stereotype.Service;
 public class DashboardAdminInstansiServiceImpl implements DashboardAdminInstansiService {
 
     @Autowired
-    private KebijakanRepository kebijakanRepository;
+    private DataKebijakanService dataKebijakanService;
 
     @Override
     public DashboardAdminInstansiCardDto getAdminInstansiDashboardCardData() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String nip = authentication.getName();
 
-        Integer totalKebijakanDiajukan = kebijakanRepository.countByCreateByAndIsSentByAdminEquals(nip, true);
-        Integer totalKebijakanDisetujui = kebijakanRepository.countByCreateByAndStatusAndIsSentByAdmin(nip, "disetujui", true);
-        Integer totalKebijakanDitolak = kebijakanRepository.countByCreateByAndStatusAndIsSentByAdmin(nip, "ditolak", true);
+        DataKebijakan dataKebijakan = dataKebijakanService.findDataKebijakanByNipAdminInstansi(nip);
+
+        Integer totalKebijakanDiajukan = dataKebijakan.getKebijakanDiajukan();
+        Integer totalKebijakanDisetujui = dataKebijakan.getKebijakanDisetujui();
+        Integer totalKebijakanDitolak = dataKebijakan.getKebijakanDitolak();
 
         DashboardAdminInstansiCardDto dashboardAdminInstansiCardDto = new DashboardAdminInstansiCardDto();
 
