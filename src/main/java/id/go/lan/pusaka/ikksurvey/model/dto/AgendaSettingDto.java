@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -41,9 +42,13 @@ public class AgendaSettingDto {
     private String informasiA3;
 
     public void setA2C(String a2c) {
-        List<String> a2cList = Stream.of(a2c.split(","))
-                .map(String::trim)
-                .collect(Collectors.toList());
-        this.a2C = a2cList;
+        if (a2c == null) {
+            this.a2C = new ArrayList<>();
+        } else {
+            List<String> a2cList = Stream.of(a2c.split(","))
+                    .map(String::trim)
+                    .collect(Collectors.toList());
+            this.a2C = a2cList;
+        }
     }
 }
