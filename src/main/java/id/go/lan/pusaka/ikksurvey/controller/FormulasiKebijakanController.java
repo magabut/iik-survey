@@ -2,8 +2,10 @@ package id.go.lan.pusaka.ikksurvey.controller;
 
 import id.go.lan.pusaka.ikksurvey.model.FormulasiKebijakan;
 import id.go.lan.pusaka.ikksurvey.model.Kebijakan;
+import id.go.lan.pusaka.ikksurvey.model.KebijakanDetail;
 import id.go.lan.pusaka.ikksurvey.model.dto.FormulasiKebijakanDto;
 import id.go.lan.pusaka.ikksurvey.service.FormulasiKebijakanService;
+import id.go.lan.pusaka.ikksurvey.service.KebijakanDetailService;
 import id.go.lan.pusaka.ikksurvey.service.KebijakanService;
 import id.go.lan.pusaka.ikksurvey.utility.ModelMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class FormulasiKebijakanController {
     private ModelMapperUtility modelMapperUtility;
     @Autowired
     private KebijakanService kebijakanService;
+    @Autowired
+    private KebijakanDetailService kebijakanDetailService;
     @Autowired
     private FormulasiKebijakanService formulasiKebijakanService;
 
@@ -56,22 +60,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB1A(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB1A();
 
+        if (file == null) {
+            formulasiKebijakan.setB1A(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB1A(answer);
             formulasiKebijakan.setPathB1A(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -90,22 +99,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB1B(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB1B();
 
+        if (file == null) {
+            formulasiKebijakan.setB1B(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB1B(answer);
             formulasiKebijakan.setPathB1B(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -124,22 +138,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB2A(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB2A();
 
+        if (file == null) {
+            formulasiKebijakan.setB2A(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB2A(answer);
             formulasiKebijakan.setPathB2A(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -158,22 +177,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB2B(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB2B();
 
+        if (file == null) {
+            formulasiKebijakan.setB2B(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB2B(answer);
             formulasiKebijakan.setPathB2B(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -192,20 +216,25 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB3A(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB3A();
 
+        if (file == null) {
+            formulasiKebijakan.setB3A(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB3A(answer);
             formulasiKebijakan.setPathB3A(uploadFile(file, currentPrincipalName));
+
+            updateProgress(kebijakan, currentAnswer);
 
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
@@ -226,22 +255,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB3B(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB3B();
 
+        if (file == null) {
+            formulasiKebijakan.setB3B(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB3B(answer);
             formulasiKebijakan.setPathB3B(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -260,22 +294,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB3C(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB3C();
 
+        if (file == null) {
+            formulasiKebijakan.setB3C(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB3C(answer);
             formulasiKebijakan.setPathB3C(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -294,22 +333,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB4A(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB4A();
 
+        if (file == null) {
+            formulasiKebijakan.setB4A(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB4A(answer);
             formulasiKebijakan.setPathB4A(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -328,22 +372,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB4B(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB4B();
 
+        if (file == null) {
+            formulasiKebijakan.setB4B(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB4B(answer);
             formulasiKebijakan.setPathB4B(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -362,22 +411,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB4C(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB4C();
 
+        if (file == null) {
+            formulasiKebijakan.setB4C(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB4C(answer);
             formulasiKebijakan.setPathB4C(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -396,22 +450,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB5A(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB5A();
 
+        if (file == null) {
+            formulasiKebijakan.setB5A(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB5A(answer);
             formulasiKebijakan.setPathB5A(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -430,22 +489,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB5B(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB5B();
 
+        if (file == null) {
+            formulasiKebijakan.setB5B(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB5B(answer);
             formulasiKebijakan.setPathB5B(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -464,22 +528,27 @@ public class FormulasiKebijakanController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
-            formulasiKebijakan.setB5C(answer);
+        FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
+        String currentAnswer = formulasiKebijakan.getB5C();
 
+        if (file == null) {
+            formulasiKebijakan.setB5C(answer);
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
             return formulasiKebijakanDto;
         } else {
-            FormulasiKebijakan formulasiKebijakan = formulasiKebijakanService.findById(kebijakan.getFormulasiKebijakan().getId());
             formulasiKebijakan.setB5C(answer);
             formulasiKebijakan.setPathB5C(uploadFile(file, currentPrincipalName));
-
             FormulasiKebijakan savedFormulasiKebijakan = formulasiKebijakanService.save(formulasiKebijakan);
+
+            updateProgress(kebijakan, currentAnswer);
+
             FormulasiKebijakanDto formulasiKebijakanDto = modelMapperUtility.initialize().map(savedFormulasiKebijakan, FormulasiKebijakanDto.class);
             formulasiKebijakanDto.setIdKebijakan(kebijakan.getId());
             formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
@@ -506,6 +575,17 @@ public class FormulasiKebijakanController {
         formulasiKebijakanDto.setIdFormulasiKebijakan(savedFormulasiKebijakan.getId());
 
         return formulasiKebijakanDto;
+    }
+
+    private void updateProgress(Kebijakan kebijakan, String answer) {
+        KebijakanDetail kebijakanDetail = kebijakan.getKebijakanDetail();
+        Double progres = kebijakanDetail.getProgres();
+        Double incrementValue = (1.0 / 39.0) * 100.0;
+
+        if (answer == null) {
+            kebijakanDetail.setProgres(progres + incrementValue);
+            kebijakanDetailService.save(kebijakanDetail);
+        }
     }
 
     private String uploadFile(MultipartFile file, String nip) {
