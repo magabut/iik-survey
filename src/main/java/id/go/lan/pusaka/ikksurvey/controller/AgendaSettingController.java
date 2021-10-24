@@ -2,8 +2,10 @@ package id.go.lan.pusaka.ikksurvey.controller;
 
 import id.go.lan.pusaka.ikksurvey.model.AgendaSetting;
 import id.go.lan.pusaka.ikksurvey.model.Kebijakan;
+import id.go.lan.pusaka.ikksurvey.model.KebijakanDetail;
 import id.go.lan.pusaka.ikksurvey.model.dto.AgendaSettingDto;
 import id.go.lan.pusaka.ikksurvey.service.AgendaSettingService;
+import id.go.lan.pusaka.ikksurvey.service.KebijakanDetailService;
 import id.go.lan.pusaka.ikksurvey.service.KebijakanService;
 import id.go.lan.pusaka.ikksurvey.utility.ModelMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,7 @@ import java.io.FileOutputStream;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/kebijakan/enumerator")
@@ -31,6 +30,8 @@ public class AgendaSettingController {
     private ModelMapperUtility modelMapperUtility;
     @Autowired
     private KebijakanService kebijakanService;
+    @Autowired
+    private KebijakanDetailService kebijakanDetailService;
     @Autowired
     private AgendaSettingService agendaSettingService;
 
@@ -59,22 +60,27 @@ public class AgendaSettingController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-            agendaSetting.setA1A(answer);
+        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+        String currentAnswer = agendaSetting.getA1A();
 
+        if (file == null) {
+            agendaSetting.setA1A(answer);
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
             return agendaSettingDto;
         } else {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
             agendaSetting.setA1A(answer);
             agendaSetting.setPathA1A(uploadFile(file, currentPrincipalName));
-
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
@@ -93,22 +99,27 @@ public class AgendaSettingController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-            agendaSetting.setA1B(answer);
+        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+        String currentAnswer = agendaSetting.getA1B();
 
+        if (file == null) {
+            agendaSetting.setA1B(answer);
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
             return agendaSettingDto;
         } else {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
             agendaSetting.setA1B(answer);
             agendaSetting.setPathA1B(uploadFile(file, currentPrincipalName));
-
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
@@ -127,23 +138,27 @@ public class AgendaSettingController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-            agendaSetting.setA1C(answer);
+        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+        String currentAnswer = agendaSetting.getA1C();
 
+        if (file == null) {
+            agendaSetting.setA1C(answer);
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
             return agendaSettingDto;
         } else {
-
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
             agendaSetting.setA1C(answer);
             agendaSetting.setPathA1C(uploadFile(file, currentPrincipalName));
-
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
@@ -162,22 +177,27 @@ public class AgendaSettingController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-            agendaSetting.setA1D(answer);
+        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+        String currentAnswer = agendaSetting.getA1D();
 
+        if (file == null) {
+            agendaSetting.setA1D(answer);
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
             return agendaSettingDto;
         } else {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
             agendaSetting.setA1D(answer);
             agendaSetting.setPathA1D(uploadFile(file, currentPrincipalName));
-
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
@@ -196,22 +216,27 @@ public class AgendaSettingController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-            agendaSetting.setA2A(answer);
+        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+        String currentAnswer = agendaSetting.getA2A();
 
+        if (file == null) {
+            agendaSetting.setA2A(answer);
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
             return agendaSettingDto;
         } else {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
             agendaSetting.setA2A(answer);
             agendaSetting.setPathA2A(uploadFile(file, currentPrincipalName));
-
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
@@ -230,22 +255,27 @@ public class AgendaSettingController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-            agendaSetting.setA2B(answer);
+        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+        String currentAnswer = agendaSetting.getA2B();
 
+        if (file == null) {
+            agendaSetting.setA2B(answer);
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
             return agendaSettingDto;
         } else {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
             agendaSetting.setA2B(answer);
             agendaSetting.setPathA2B(uploadFile(file, currentPrincipalName));
-
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
@@ -264,22 +294,27 @@ public class AgendaSettingController {
         String currentPrincipalName = authentication.getName();
         Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, idKebijakan);
 
-        if (file == null) {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
-            agendaSetting.setA2C(answer);
+        AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
+        String currentAnswer = agendaSetting.getA2C();
 
+        if (file == null) {
+            agendaSetting.setA2C(answer);
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
             return agendaSettingDto;
         } else {
-            AgendaSetting agendaSetting = agendaSettingService.findById(kebijakan.getAgendaSetting().getId());
             agendaSetting.setA2C(answer);
             agendaSetting.setPathA2C(uploadFile(file, currentPrincipalName));
-
             AgendaSetting savedAgendaSetting = agendaSettingService.save(agendaSetting);
+
+            updateProgress(kebijakan, currentAnswer);
+
             AgendaSettingDto agendaSettingDto = modelMapperUtility.initialize().map(savedAgendaSetting, AgendaSettingDto.class);
             agendaSettingDto.setIdKebijakan(kebijakan.getId());
             agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
@@ -306,6 +341,17 @@ public class AgendaSettingController {
         agendaSettingDto.setIdAgendaSetting(savedAgendaSetting.getId());
 
         return agendaSettingDto;
+    }
+
+    private void updateProgress(Kebijakan kebijakan, String answer) {
+        KebijakanDetail kebijakanDetail = kebijakan.getKebijakanDetail();
+        Double progres = kebijakanDetail.getProgres();
+        Double incrementValue = (1.0 / 39.0) * 100.0;
+
+        if (answer == null) {
+            kebijakanDetail.setProgres(progres + incrementValue);
+            kebijakanDetailService.save(kebijakanDetail);
+        }
     }
 
     private String uploadFile(MultipartFile file, String nip) {
