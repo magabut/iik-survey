@@ -30,8 +30,10 @@ public class Kebijakan {
 	private Boolean isVerified = false;
 	private Boolean isSentByAdmin = false;
 	private Boolean isSentByKoordinator = false;
+	private Boolean isSentByEnumerator = false;
 	private Date sentByAdminAt;
 	private Date sentByKoordinatorAt;
+	private Date sentByEnumeratorAt;
 	@OneToOne
 	@JoinColumn(name = "agenda_setting_id", referencedColumnName = "id")
 	@JsonIgnoreProperties("kebijakan")
@@ -223,5 +225,21 @@ public class Kebijakan {
 
 	public void setKebijakanDetail(KebijakanDetail kebijakanDetail) {
 		this.kebijakanDetail = kebijakanDetail;
+	}
+
+	public Boolean getIsSentByEnumerator() {
+		return isSentByEnumerator;
+	}
+
+	public void setIsSentByEnumerator(Boolean sentByEnumerator) {
+		isSentByEnumerator = sentByEnumerator;
+	}
+
+	public Date getSentByEnumeratorAt() {
+		return sentByEnumeratorAt;
+	}
+
+	public void setSentByEnumeratorAt(Date sentByEnumeratorAt) {
+		this.sentByEnumeratorAt = sentByEnumeratorAt;
 	}
 }

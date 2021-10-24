@@ -23,4 +23,5 @@ public class KebijakanDto {
     private Boolean isVerified;
     private Boolean isSentByAdmin;
     private Boolean isSentByKoordinator;
+    private Boolean isSentByEnumerator;
 }
