@@ -39,6 +39,8 @@ public class KebijakanController {
 	FormulasiKebijakanService formulasiKebijakanService;
 	@Autowired
 	ImplementasiKebijakanService implementasiKebijakanService;
+	@Autowired
+	private DataKebijakanService dataKebijakanService;
 
 	// Koordinator Instansi
 
@@ -174,6 +176,19 @@ public class KebijakanController {
 		kebijakan.setIsVerified(false);
 		kebijakan.setIsSentByAdmin(false);
 		kebijakan.setIsSentByKoordinator(false);
+
+		if (dataKebijakanService.isExists(kebijakan.getCreateBy())) {
+			DataKebijakan dataKebijakan = dataKebijakanService.findDataKebijakanByNipAdminInstansi(kebijakan.getCreateBy());
+			dataKebijakan.setKebijakanDiajukan(dataKebijakan.getKebijakanDiajukan() + 1);
+			dataKebijakanService.save(dataKebijakan);
+		} else {
+			DataKebijakan dataKebijakan = new DataKebijakan();
+			dataKebijakan.setNamaInstansi(kebijakan.getInstansi());
+			dataKebijakan.setNipAdminInstansi(kebijakan.getCreateBy());
+			dataKebijakan.setKebijakanDiajukan(dataKebijakan.getKebijakanDiajukan() + 1);
+			dataKebijakanService.save(dataKebijakan);
+		}
+
 		return kebijakanService.save(kebijakan);
 	}
 
