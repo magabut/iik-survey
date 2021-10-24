@@ -32,6 +32,8 @@ public class KebijakanController {
 	@Autowired
 	KebijakanService kebijakanService;
 	@Autowired
+	private KebijakanDetailService kebijakanDetailService;
+	@Autowired
 	AgendaSettingService agendaSettingService;
 	@Autowired
 	EvaluasiKebijakanService evaluasiKebijakanService;
@@ -164,7 +166,7 @@ public class KebijakanController {
 		kebijakanRequest.setTanggal(kebijakanRequest.getTanggal());
 		KebijakanDetail kebijakanDetail = new KebijakanDetail();
 		kebijakanDetail.setProgres(0.0);
-		kebijakan.setKebijakanDetail(kebijakanDetail);
+		kebijakan.setKebijakanDetail(kebijakanDetailService.save(kebijakanDetail));
 		AgendaSetting agendaSetting = new AgendaSetting();
 		kebijakan.setAgendaSetting(agendaSettingService.save(agendaSetting));
 		EvaluasiKebijakan evaluasiKebijakan = new EvaluasiKebijakan();
