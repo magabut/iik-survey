@@ -27,4 +27,6 @@ public interface KebijakanRepository extends JpaRepository<Kebijakan, Long> {
 	Integer countByCreateBy(String nip);
 
 	Kebijakan findTopByCreateBy(String nip);
+
+	List<Kebijakan> findByEnumeratorAndStatus(String enumerator, String status);
 }

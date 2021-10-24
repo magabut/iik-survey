@@ -35,4 +35,6 @@ public interface KebijakanService {
 	Kebijakan findTopByCreateBy(String nip);
 
 	List<Kebijakan> findByInstansiAndCreateByAndStatus(String instansi, String createBy, String status);
+
+	List<Kebijakan> findByEnumeratorAndStatus(String enumerator, String status);
 }
