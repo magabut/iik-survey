@@ -6,6 +6,7 @@ import id.go.lan.pusaka.ikksurvey.model.RandomizedKebijakan;
 import id.go.lan.pusaka.ikksurvey.model.dto.KebijakanDto;
 import id.go.lan.pusaka.ikksurvey.model.dto.SampleKebijakanDto;
 import id.go.lan.pusaka.ikksurvey.repository.KebijakanRepository;
+import id.go.lan.pusaka.ikksurvey.service.DataKebijakanService;
 import id.go.lan.pusaka.ikksurvey.service.KebijakanService;
 import id.go.lan.pusaka.ikksurvey.service.RandomizedKebijakanService;
 import id.go.lan.pusaka.ikksurvey.utility.ModelMapperUtility;
@@ -33,6 +34,9 @@ public class KebijakanServiceImpl implements KebijakanService {
 
 	@Autowired
 	RandomizedKebijakanService randomizedKebijakanService;
+
+	@Autowired
+	DataKebijakanService dataKebijakanService;
 
 	@Override
 	public Kebijakan save(Kebijakan kebijakan) {
@@ -89,15 +93,12 @@ public class KebijakanServiceImpl implements KebijakanService {
   @Override
 	public SampleKebijakanDto findSampleKebijakanByInstansi(String instansi, String nip) {
 
-		List<Kebijakan> kebijakanDiajukanList = kebijakanRepository.findByInstansiAndIsSentByAdmin(instansi, true);
-		List<Kebijakan> kebijakanDisetujuiList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DISETUJUI);
-
-		int totalKebijakanDisetujui = kebijakanDisetujuiList.size();
-	  	int totalKebijakanDiajukan = kebijakanDiajukanList.size();
+		int totalKebijakanDisetujui = dataKebijakanService.findDataKebijakanByNipAdminInstansi(nip).getKebijakanDisetujui();
+	  	int totalKebijakanDiajukan = dataKebijakanService.findDataKebijakanByNipAdminInstansi(nip).getKebijakanDiajukan();
 
 	  	List<KebijakanDto> kebijakanSampleDtoList = new ArrayList<>();
 	  	if (!randomizedKebijakanService.countByNipAdminInstansi(nip).equals(0)) {
-			if (kebijakanDisetujuiList.size() != 0) {
+			if (totalKebijakanDisetujui != 0) {
 				List<Kebijakan> kebijakanSampleList = new ArrayList<>();
 				List<RandomizedKebijakan> randomizedKebijakanList = randomizedKebijakanService.findByNipAdminInstansi(nip);
 				for (RandomizedKebijakan randomizedKebijakan : randomizedKebijakanList) {
