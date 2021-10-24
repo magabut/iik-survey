@@ -37,4 +37,6 @@ public interface KebijakanService {
 	List<Kebijakan> findByInstansiAndCreateByAndIsSentByAdminEquals(String instansi, String nip);
 
 	List<Kebijakan> findByInstansiAndCreateByAndStatus(String instansi, String createBy, String status);
+
+	List<Kebijakan> findByEnumeratorAndStatus(String enumerator, String status);
 }

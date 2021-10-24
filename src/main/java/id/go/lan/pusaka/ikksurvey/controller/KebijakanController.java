@@ -64,6 +64,8 @@ public class KebijakanController {
 			daftarKebijakanDto.setNipAdminInstansi(instansi.getAdminInstansi());
 //			daftarKebijakanDto.setTanggal(dataKebijakan.getSentByAdminAt());
 			daftarKebijakanDto.setTanggal(new Date());
+			// TO DO -> masih null
+//			daftarKebijakanDto.setTanggal(kebijakanService.findTopByCreateBy(instansi.getAdminInstansi()).getTanggal());
 			daftarKebijakanDtoList.add(daftarKebijakanDto);
 		}
 
@@ -190,6 +192,7 @@ public class KebijakanController {
 		kebijakan.setIsVerified(false);
 		kebijakan.setIsSentByAdmin(false);
 		kebijakan.setIsSentByKoordinator(false);
+		kebijakan.setIsSentByEnumerator(false);
 
 		if (dataKebijakanService.isExists(kebijakan.getCreateBy())) {
 			DataKebijakan dataKebijakan = dataKebijakanService.findDataKebijakanByNipAdminInstansi(kebijakan.getCreateBy());
@@ -444,6 +447,18 @@ public class KebijakanController {
 		return implementasiKebijakanService.save(implementasiKebijakan);
 	}
 
+//	@GetMapping("/enumerator/evaluasikebijakan/{id}")
+//	@PreAuthorize("hasAnyAuthority('role_enumerator')")
+//	public EvaluasiKebijakan findKebijakanEnumeratorIdEvaluasiKebijakan(@PathVariable("id") Long id)
+//			throws UnirestException {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		String currentPrincipalName = authentication.getName();
+//		Kebijakan kebijakan = kebijakanService.findByEnumeratorAndId(currentPrincipalName, id);
+//
+//		EvaluasiKebijakan evaluasiKebijakan = kebijakan.getEvaluasiKebijakan();
+//		return evaluasiKebijakan;
+//	}
+
 	@PostMapping("/enumerator/evaluasikebijakan/{id}")
 	@PreAuthorize("hasAnyAuthority('role_enumerator')")
 	public EvaluasiKebijakan simpanKebijakanEnumeratorIdEvaluasiKebijakan(
@@ -467,6 +482,12 @@ public class KebijakanController {
 		evaluasiKebijakan.setInformasiD4(evaluasiKebijakanRequest.getInformasiD4());
 		return evaluasiKebijakanService.save(evaluasiKebijakan);
 	}
+
+	// Admin Instansi TO DO
+
+//	@PostMapping("/admininstansi/kirim")
+//	@PreAuthorize("hasAnyAuthority('role_admin_instansi')")
+//	public
 
 	List<InstansiListResponse> getInstansiList(String nip, String token) throws UnirestException {
 		HttpResponse<JsonNode> response = Unirest.get(RESOURCE_URL + "/user/pegawai/instansi/" + nip)

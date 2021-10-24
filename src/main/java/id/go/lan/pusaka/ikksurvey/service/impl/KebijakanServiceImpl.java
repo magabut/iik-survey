@@ -184,6 +184,11 @@ public class KebijakanServiceImpl implements KebijakanService {
 		return kebijakanRepository.findByInstansiAndCreateByAndStatus(instansi, createBy, status);
 	}
 
+	@Override
+	public List<Kebijakan> findByEnumeratorAndStatus(String enumerator, String status) {
+		return kebijakanRepository.findByEnumeratorAndStatus(enumerator, status);
+	}
+
 	private List<Kebijakan> generateKebijakanSample(List<Kebijakan> kebijakanList) {
 		int totalKebijakan = kebijakanList.size();
 		int totalSample = (int) Math.floor(Math.sqrt(totalKebijakan) + 1);
