@@ -22,9 +22,13 @@ public interface KebijakanRepository extends JpaRepository<Kebijakan, Long> {
 
 	List<Kebijakan> findByInstansiAndCreateByAndStatus(String instansi, String createBy, String status);
 
+	List<Kebijakan> findByInstansiAndCreateByAndIsSentByAdminEquals(String instansi, String createBy, Boolean isSentByAdmin);
+
 	List<Kebijakan> findByCreateBy(String nip);
 
-	Integer countByCreateBy(String nip);
+	List<Kebijakan> findByInstansiAndIsSentByAdmin(String instansi, Boolean isSentByAdmin);
 
-	Kebijakan findTopByCreateBy(String nip);
+	Integer countByCreateByAndIsSentByAdminEquals(String createBy, Boolean isSentByAdmin);
+
+	Integer countByCreateByAndStatusAndIsSentByAdmin(String createBy, String status, Boolean isSentByAdmin);
 }

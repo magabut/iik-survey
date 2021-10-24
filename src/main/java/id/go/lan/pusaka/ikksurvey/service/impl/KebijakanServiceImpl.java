@@ -1,10 +1,13 @@
 package id.go.lan.pusaka.ikksurvey.service.impl;
 
+import id.go.lan.pusaka.ikksurvey.exception.ResourceNotFoundException;
 import id.go.lan.pusaka.ikksurvey.model.Kebijakan;
+import id.go.lan.pusaka.ikksurvey.model.RandomizedKebijakan;
 import id.go.lan.pusaka.ikksurvey.model.dto.KebijakanDto;
 import id.go.lan.pusaka.ikksurvey.model.dto.SampleKebijakanDto;
 import id.go.lan.pusaka.ikksurvey.repository.KebijakanRepository;
 import id.go.lan.pusaka.ikksurvey.service.KebijakanService;
+import id.go.lan.pusaka.ikksurvey.service.RandomizedKebijakanService;
 import id.go.lan.pusaka.ikksurvey.utility.ModelMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,9 @@ public class KebijakanServiceImpl implements KebijakanService {
 	@Autowired
 	KebijakanRepository kebijakanRepository;
 
+	@Autowired
+	RandomizedKebijakanService randomizedKebijakanService;
+
 	@Override
 	public Kebijakan save(Kebijakan kebijakan) {
 		// TODO Auto-generated method stub
@@ -35,9 +41,8 @@ public class KebijakanServiceImpl implements KebijakanService {
 	}
 
 	@Override
-	public Kebijakan delete(Kebijakan kebijakan) {
+	public void delete(Kebijakan kebijakan) {
 		kebijakanRepository.delete(kebijakan);
-		return kebijakan;
 	}
 
 	@Override
@@ -82,57 +87,95 @@ public class KebijakanServiceImpl implements KebijakanService {
   }
 
   @Override
-	public SampleKebijakanDto findSampleKebijakanByInstansi(String instansi) {
-		List<Kebijakan> kebijakanDiajukanList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DIAJUKAN);
+	public SampleKebijakanDto findSampleKebijakanByInstansi(String instansi, String nip) {
+
+		List<Kebijakan> kebijakanDiajukanList = kebijakanRepository.findByInstansiAndIsSentByAdmin(instansi, true);
 		List<Kebijakan> kebijakanDisetujuiList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DISETUJUI);
-		List<Kebijakan> kebijakanDitolakList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DITOLAK);
 
 		int totalKebijakanDisetujui = kebijakanDisetujuiList.size();
-		int totalKebijakanDitolak = kebijakanDitolakList.size();
 	  	int totalKebijakanDiajukan = kebijakanDiajukanList.size();
 
 	  	List<KebijakanDto> kebijakanSampleDtoList = new ArrayList<>();
-	  	if (kebijakanDisetujuiList.size() != 0) {
+	  	if (!randomizedKebijakanService.countByNipAdminInstansi(nip).equals(0)) {
+			if (kebijakanDisetujuiList.size() != 0) {
+				List<Kebijakan> kebijakanSampleList = new ArrayList<>();
+				List<RandomizedKebijakan> randomizedKebijakanList = randomizedKebijakanService.findByNipAdminInstansi(nip);
+				for (RandomizedKebijakan randomizedKebijakan : randomizedKebijakanList) {
+					Kebijakan kebijakan = kebijakanRepository.findById(randomizedKebijakan.getIdKebijakan())
+							.orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+					KebijakanDto kebijakanDto = modelMapperUtility.initialize().map(kebijakan, KebijakanDto.class);
+					kebijakanSampleList.add(kebijakan);
+					kebijakanSampleDtoList.add(kebijakanDto);
+				}
+
+				return new SampleKebijakanDto(
+						totalKebijakanDiajukan,
+						totalKebijakanDisetujui,
+						kebijakanSampleList.size(),
+						true,
+						kebijakanSampleDtoList);
+			}
+		}
+
+		return new SampleKebijakanDto(
+				totalKebijakanDiajukan,
+				totalKebijakanDisetujui,
+				0,
+				false,
+				kebijakanSampleDtoList);
+	}
+
+	@Override
+	public SampleKebijakanDto addSampleKebijakanByInstansi(String instansi, String nip) {
+
+		List<Kebijakan> kebijakanDiajukanList = kebijakanRepository.findByInstansiAndIsSentByAdmin(instansi, true);
+		List<Kebijakan> kebijakanDisetujuiList = kebijakanRepository.findByInstansiAndStatus(instansi, STATUS_KEBIJAKAN_DISETUJUI);
+
+		int totalKebijakanDisetujui = kebijakanDisetujuiList.size();
+		int totalKebijakanDiajukan = kebijakanDiajukanList.size();
+
+		List<KebijakanDto> kebijakanSampleDtoList = new ArrayList<>();
+		if (randomizedKebijakanService.countByNipAdminInstansi(nip).equals(0)) {
 			List<Kebijakan> kebijakanSampleList = generateKebijakanSample(kebijakanDisetujuiList);
 			for (Kebijakan kebijakan : kebijakanSampleList) {
 				KebijakanDto kebijakanDto = modelMapperUtility.initialize().map(kebijakan, KebijakanDto.class);
 				kebijakanSampleDtoList.add(kebijakanDto);
+
+				RandomizedKebijakan randomizedKebijakan = new RandomizedKebijakan();
+				randomizedKebijakan.setIdKebijakan(kebijakan.getId());
+				randomizedKebijakan.setNipAdminInstansi(kebijakan.getCreateBy());
+				randomizedKebijakanService.save(randomizedKebijakan);
 			}
 
 			return new SampleKebijakanDto(
 					totalKebijakanDiajukan,
 					totalKebijakanDisetujui,
 					kebijakanSampleList.size(),
+					true,
 					kebijakanSampleDtoList);
 		}
-		  return new SampleKebijakanDto(
-				  totalKebijakanDiajukan,
-				  totalKebijakanDisetujui,
-				  0,
-				  kebijakanSampleDtoList);
+		return null;
 	}
 
 	@Override
 	public KebijakanDto assignEnumeratorToKebijakan(String instansi, Long idKebijakan, String nipEnumerator) {
 		Kebijakan kebijakan = kebijakanRepository.findByInstansiAndId(instansi, idKebijakan);
 		kebijakan.setEnumerator(nipEnumerator);
-		kebijakan.setStatus(STATUS_KEBIJAKAN_PROSES);
+		kebijakan.setStatus(STATUS_KEBIJAKAN_DISETUJUI);
+		kebijakan.setAssignAt(new Date());
 		Kebijakan savedKebijakan = kebijakanRepository.save(kebijakan);
 		return modelMapperUtility.initialize().map(savedKebijakan, KebijakanDto.class);
 	}
 
 	@Override
-	public Integer countByCreateBy(String nip) {
-		if (kebijakanRepository.countByCreateBy(nip).equals(null)) {
-			return 0;
-		} else {
-			return kebijakanRepository.countByCreateBy(nip);
-		}
+	public Integer countByCreateByAndIsSentByAdminEquals(String nip) {
+		kebijakanRepository.countByCreateByAndIsSentByAdminEquals(nip, true);
+		return kebijakanRepository.countByCreateByAndIsSentByAdminEquals(nip, true);
 	}
 
 	@Override
-	public Kebijakan findTopByCreateBy(String nip) {
-		return kebijakanRepository.findTopByCreateBy(nip);
+	public List<Kebijakan> findByInstansiAndCreateByAndIsSentByAdminEquals(String instansi, String nip) {
+		return kebijakanRepository.findByInstansiAndCreateByAndIsSentByAdminEquals(instansi, nip, true);
 	}
 
 	@Override
