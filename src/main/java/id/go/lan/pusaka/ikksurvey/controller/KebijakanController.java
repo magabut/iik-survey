@@ -177,6 +177,7 @@ public class KebijakanController {
 		kebijakan.setIsVerified(false);
 		kebijakan.setIsSentByAdmin(false);
 		kebijakan.setIsSentByKoordinator(false);
+		kebijakan.setIsSentByEnumerator(false);
 		return kebijakanService.save(kebijakan);
 	}
 
