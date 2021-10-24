@@ -48,6 +48,10 @@ public class Kebijakan {
 	@JoinColumn(name = "evaluasi_kebijakan_id", referencedColumnName = "id")
 	@JsonIgnoreProperties("kebijakan")
 	private EvaluasiKebijakan evaluasiKebijakan;
+	@OneToOne
+	@JoinColumn(name = "kebijakan_detail_id", referencedColumnName = "id")
+	@JsonIgnoreProperties("kebijakan")
+	private KebijakanDetail kebijakanDetail;
 
 	public Kebijakan() {
 		super();
@@ -211,5 +215,13 @@ public class Kebijakan {
 
 	public void setSentByKoordinatorAt(Date sentByKoordinatorAt) {
 		this.sentByKoordinatorAt = sentByKoordinatorAt;
+	}
+
+	public KebijakanDetail getKebijakanDetail() {
+		return kebijakanDetail;
+	}
+
+	public void setKebijakanDetail(KebijakanDetail kebijakanDetail) {
+		this.kebijakanDetail = kebijakanDetail;
 	}
 }
